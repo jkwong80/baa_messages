@@ -11,3 +11,11 @@ tags
 .DS_Store
 .eggs
 .python-version
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+out
+gen
