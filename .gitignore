@@ -1,0 +1,12 @@
+*.pyc
+tags
+/build
+*.swp
+/dist
+/MANIFEST
+/baa_messages.egg-info
+*.egg
+/.idea
+.DS_Store
+.eggs
+.python-version
