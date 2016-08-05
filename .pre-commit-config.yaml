@@ -1,0 +1,10 @@
+- repo: ./
+  sha: 1.0.0
+  hooks:
+  - id: thrift-build
+    name: Build the Thrift components
+    description: This hook will build the Thrift classes and included them in the commit
+    entry: thrift.sh
+    language: script
+    files: \.()$
+    always_run: true
