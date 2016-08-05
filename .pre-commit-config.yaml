@@ -5,5 +5,14 @@
     description: This hook will build the Thrift classes and included them in the commit
     entry: ./bin/thrift-compile.sh
     language: script
-    files: \*
+    files: \.(thrift)$
     always_run: true
+    stages: [commit]
+  - id: check-in-thrift-build
+    name: Commit the newly created thrift packages
+    description: Git commit to make sure the new thrift packages go to the remote.
+    language: script
+    files: \.(thrift)$
+    always_run: true
+    entry: ./bin/thrift_checkin.sh
+    stages: [push]
