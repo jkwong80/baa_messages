@@ -5,6 +5,7 @@ tags
 /dist
 /MANIFEST
 /baa_messages.egg-info
+/baa_messages_env
 *.egg
 /.idea
 .DS_Store
