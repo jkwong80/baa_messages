@@ -51,15 +51,18 @@ class ApiBase(unittest.TestCase):
 
 
     def test_network_message_codec(self):
+        print " Starting test_netowr..."
         try:
             x = GPSReading(sensor_id='sensor_1',
                            timestamp=time.time(),
                            latitude=0,
                            longitude=0
                            )
+            print 'I got to here'
             msg = bc.encode_network_message('sender 1',
                                             time.time(),
                                             x)
+            print 'I got to here as well...msg'
             self.assertTrue(type(msg) == type(str()) , "Encoding yielded invalid type")
 
             y = bc.decode_network_message(msg)

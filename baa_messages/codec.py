@@ -68,13 +68,20 @@ def decode_json(json_string, schema_class):
 def encode_network_message(sender_id,message_time,schema_object,receiver_id=None,latitude=None,longitude=None):
     payload_string = encode_object(schema_object,output_type=OutputType.BINARY)
     payload_cls = str(schema_object.__class__)
+    print 'encode_netowrk_message...'
+    if latitude is None:
+        latitude = 0.0
+
+    if longitude is None:
+        longitude = 0.0
+        
     envelope = BAAMessage(sender_id=sender_id,
                           message_time=message_time,
                           payload_class=payload_cls,
                           payload=payload_string,
                           receiver_id=receiver_id,
-                          latitude=latitude,
-                          longitude=longitude)
+                          gps_coordinates=[float(latitude),float(longitude)])
+    
     msg = encode_object(envelope,output_type=OutputType.JSON)
     return msg
 

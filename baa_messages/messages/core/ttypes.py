@@ -25,8 +25,9 @@ class BAAMessage:
    - payload_class
    - payload
    - receiver_id
-   - latitude
-   - longitude
+   - gps_coordinates
+   - sensor_id
+   - sensor_unit_id
   """
 
   thrift_spec = (
@@ -36,18 +37,20 @@ class BAAMessage:
     (3, TType.STRING, 'payload_class', None, None, ), # 3
     (4, TType.STRING, 'payload', None, None, ), # 4
     (5, TType.STRING, 'receiver_id', None, None, ), # 5
-    (6, TType.DOUBLE, 'latitude', None, None, ), # 6
-    (7, TType.DOUBLE, 'longitude', None, None, ), # 7
+    (6, TType.LIST, 'gps_coordinates', (TType.DOUBLE,None), None, ), # 6
+    (7, TType.I32, 'sensor_id', None, None, ), # 7
+    (8, TType.I32, 'sensor_unit_id', None, None, ), # 8
   )
 
-  def __init__(self, sender_id=None, message_time=None, payload_class=None, payload=None, receiver_id=None, latitude=None, longitude=None,):
+  def __init__(self, sender_id=None, message_time=None, payload_class=None, payload=None, receiver_id=None, gps_coordinates=None, sensor_id=None, sensor_unit_id=None,):
     self.sender_id = sender_id
     self.message_time = message_time
     self.payload_class = payload_class
     self.payload = payload
     self.receiver_id = receiver_id
-    self.latitude = latitude
-    self.longitude = longitude
+    self.gps_coordinates = gps_coordinates
+    self.sensor_id = sensor_id
+    self.sensor_unit_id = sensor_unit_id
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -84,13 +87,23 @@ class BAAMessage:
         else:
           iprot.skip(ftype)
       elif fid == 6:
-        if ftype == TType.DOUBLE:
-          self.latitude = iprot.readDouble()
+        if ftype == TType.LIST:
+          self.gps_coordinates = []
+          (_etype3, _size0) = iprot.readListBegin()
+          for _i4 in xrange(_size0):
+            _elem5 = iprot.readDouble()
+            self.gps_coordinates.append(_elem5)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 7:
-        if ftype == TType.DOUBLE:
-          self.longitude = iprot.readDouble()
+        if ftype == TType.I32:
+          self.sensor_id = iprot.readI32()
+        else:
+          iprot.skip(ftype)
+      elif fid == 8:
+        if ftype == TType.I32:
+          self.sensor_unit_id = iprot.readI32()
         else:
           iprot.skip(ftype)
       else:
@@ -123,13 +136,20 @@ class BAAMessage:
       oprot.writeFieldBegin('receiver_id', TType.STRING, 5)
       oprot.writeString(self.receiver_id)
       oprot.writeFieldEnd()
-    if self.latitude is not None:
-      oprot.writeFieldBegin('latitude', TType.DOUBLE, 6)
-      oprot.writeDouble(self.latitude)
+    if self.gps_coordinates is not None:
+      oprot.writeFieldBegin('gps_coordinates', TType.LIST, 6)
+      oprot.writeListBegin(TType.DOUBLE, len(self.gps_coordinates))
+      for iter6 in self.gps_coordinates:
+        oprot.writeDouble(iter6)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
-    if self.longitude is not None:
-      oprot.writeFieldBegin('longitude', TType.DOUBLE, 7)
-      oprot.writeDouble(self.longitude)
+    if self.sensor_id is not None:
+      oprot.writeFieldBegin('sensor_id', TType.I32, 7)
+      oprot.writeI32(self.sensor_id)
+      oprot.writeFieldEnd()
+    if self.sensor_unit_id is not None:
+      oprot.writeFieldBegin('sensor_unit_id', TType.I32, 8)
+      oprot.writeI32(self.sensor_unit_id)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -153,8 +173,9 @@ class BAAMessage:
     value = (value * 31) ^ hash(self.payload_class)
     value = (value * 31) ^ hash(self.payload)
     value = (value * 31) ^ hash(self.receiver_id)
-    value = (value * 31) ^ hash(self.latitude)
-    value = (value * 31) ^ hash(self.longitude)
+    value = (value * 31) ^ hash(self.gps_coordinates)
+    value = (value * 31) ^ hash(self.sensor_id)
+    value = (value * 31) ^ hash(self.sensor_unit_id)
     return value
 
   def __repr__(self):

@@ -24,9 +24,10 @@ struct BAAMessage {
     1: required string sender_id,
     2: required double message_time,
     3: required string payload_class,
-    4: required binary payload
+    4: required binary payload,
     5: optional string receiver_id,
-    6: optional double latitude,
-    7: optional double longitude
+    6: optional list<double> gps_coordinates,
+    7: optional i32 sensor_id,
+    8: optional i32 sensor_unit_id
 }
 
