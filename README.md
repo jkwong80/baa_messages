@@ -32,3 +32,4 @@ from baa_messages.messages.core.ttypes import BAAMessage
 x=BAAMessage()
 x.sender_id = "1234"
 ```
+Also see [baa_messages.codec](./baa_messages/codec.py) for usage on the codec tools

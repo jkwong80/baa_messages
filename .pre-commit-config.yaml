@@ -7,4 +7,10 @@
     language: script
     files: \.(thrift)$
     always_run: true
-
+  - id: build-tests
+    name: Testing the baa_messages build
+    description: This hook will run the tests from the setup.py to check to ame sure that everythign builds correctly
+    entry: ./bin/run_tests.sh
+    language: script
+    files: \.(build-tests)$
+    always_run: true
