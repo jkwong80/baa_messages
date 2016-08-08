@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for f in baa_messages/*.thrift; do
-  thrift --out baa_messages/thrift_lib --gen py $f;
+for f in baa_messages/schema/*.thrift; do
+  thrift --out baa_messages/ --gen py $f;
 done
-git add baa_messages/thrift_lib/
+git add baa_messages/

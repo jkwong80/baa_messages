@@ -24,3 +24,11 @@ To test the installation run:
 cd [repo_location]
 python setup.py test
 ```
+
+# Usage
+To create a "BAAMessage" python object from the schema and set the sender_id, open python and type:
+```
+from baa_messages.messages.core.ttypes import BAAMessage
+x=BAAMessage()
+x.sender_id = "1234"
+```
