@@ -89,7 +89,7 @@ Vagrant.configure(2) do |config|
     vb.gui = false
 
     vb.name = "baa-serverless-config"
-  
+
     # Customize the amount of memory on the VM:
     vb.memory = 2048
     vb.cpus = 1
@@ -105,6 +105,12 @@ Vagrant.configure(2) do |config|
     sudo apt-get update
     sudo apt-get install -y python-dev python-pip liblz4-dev thrift-compiler python-thrift
     sudo pip install base64
+  SHELL
+
+  config.vm.provision "shell", run: "always", inline: <<-SHELL
+    echo "build"
+    cd /vagrant/
+    sudo pip install -t baa_messages/vendored/ -r requirements.txt
   SHELL
 
 end
