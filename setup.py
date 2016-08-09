@@ -13,10 +13,15 @@ setup(name='baa_messages',
       license='MIT License',
       test_suite='test',
       install_requires=[
-          'thrift', 'pre-commit'
+          'thrift',
+          'pre-commit',
+          'AWSIoTPythonSDK',
+          'Enum'
       ],
       tests_require=[
-	'thrift'
+	'thrift',
+        'AWSIoTPythonSDK',
+        'Enum'
       ],
       platforms=['any'],
       classifiers=['Development Status :: 1 - Alpha',
