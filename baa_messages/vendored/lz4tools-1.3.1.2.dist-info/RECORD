@@ -1,0 +1,17 @@
+lz4f.so,sha256=woOC-cDIygwo5Z0lWn3i1vMXvl99VmjKU7ErVtUaZdw,101844
+lz4tools/__init__.py,sha256=XhAksBwyyfRhicpaT39Rt10WPi1ckPFa7DZk8gEb5tI,4903
+lz4tools/__main__.py,sha256=uZMezGzCOyIiRS04dNiWrI8hJkrwFqFhg6jx3aC9VpU,3045
+lz4tools/lz4file.py,sha256=yuHqD432zeuYr2FB02a3H6i5p9P3pBZr_HUNTCwS-lE,7269
+lz4tools/lz4tar.py,sha256=cD3ujhDIkRQpU1kGTWCMMhYOH-SPGNF4xc_bslEHKtA,1279
+../../bin/lz4toolsCli,sha256=MQe0YQ2_vwdrX_dCPVUQUx5k0NxGuW-z7CVSHFs70d0,3032
+lz4tools-1.3.1.2.dist-info/DESCRIPTION.rst,sha256=bpsajlhKDH6HXxMLjooBw83wKKERyoPQ3l_UOb0lPtA,6996
+lz4tools-1.3.1.2.dist-info/METADATA,sha256=rPVMrFvGEVbX29cCWSXh6oycwqmQiWMB1KdA6CmjNxw,7859
+lz4tools-1.3.1.2.dist-info/RECORD,,
+lz4tools-1.3.1.2.dist-info/WHEEL,sha256=ik3fqPMJj7D-0Wemai2knvDSFoYiYBivUGU3xLcAFwY,111
+lz4tools-1.3.1.2.dist-info/metadata.json,sha256=fYpK0Uxnr9t7uqTZKWk7LGplpQqbt1pP789zrjQURVY,974
+lz4tools-1.3.1.2.dist-info/top_level.txt,sha256=cPlfw7bcmg1lEZHJpqPVgqiC9zj5tOo4Z2f1zqbR2bc,14
+lz4tools-1.3.1.2.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+lz4tools/__main__.pyc,,
+lz4tools/lz4tar.pyc,,
+lz4tools/__init__.pyc,,
+lz4tools/lz4file.pyc,,
