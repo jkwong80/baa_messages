@@ -1,0 +1,15 @@
+../lz4tools/__main__.py
+../lz4tools/lz4file.py
+../lz4tools/__init__.py
+../lz4tools/lz4tar.py
+../lz4tools/__main__.pyc
+../lz4tools/lz4file.pyc
+../lz4tools/__init__.pyc
+../lz4tools/lz4tar.pyc
+../lz4f.so
+./
+SOURCES.txt
+top_level.txt
+dependency_links.txt
+PKG-INFO
+../../../bin/lz4toolsCli

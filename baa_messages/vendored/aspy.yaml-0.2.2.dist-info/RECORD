@@ -8,6 +8,9 @@ aspy.yaml-0.2.2.dist-info/WHEEL,sha256=o2k-Qa-RMNIJmUdIc7KU6VWR_ErNRbWNlxDIpl7lm
 aspy.yaml-0.2.2.dist-info/metadata.json,sha256=JpOyO3KEK0Fw_CEcgYxD-fh6x0vfEyS0wth1duhT8Tk,906
 aspy.yaml-0.2.2.dist-info/namespace_packages.txt,sha256=HlYZt6l6RGcYGEDl6NEIwatcPEFXsm1tEg3EyLA6hw8,5
 aspy.yaml-0.2.2.dist-info/top_level.txt,sha256=HlYZt6l6RGcYGEDl6NEIwatcPEFXsm1tEg3EyLA6hw8,5
+<<<<<<< 083315c3e3a5bcd54eb71dcdda0675ff3d4bc127
 aspy.yaml-0.2.2.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+=======
+>>>>>>> Try building vendor files locally.
 aspy/yaml/ordereddict.pyc,,
 aspy/yaml/__init__.pyc,,

@@ -26,18 +26,26 @@ jsonschema-2.5.1.dist-info/pbr.json,sha256=5ioH29fQsqgieIG0j6NOp_cvGDsQOmj-etwNZ
 jsonschema-2.5.1.dist-info/RECORD,,
 jsonschema-2.5.1.dist-info/top_level.txt,sha256=jGoNS61vDONU8U7p0Taf-y_8JVG1Z2CJ5Eif6zMN_cw,11
 jsonschema-2.5.1.dist-info/WHEEL,sha256=AvR0WeTpDaxT645bl5FQxUK6NPsTls2ttpcGJg3j1Xg,110
+<<<<<<< 083315c3e3a5bcd54eb71dcdda0675ff3d4bc127
 ../../bin/jsonschema,sha256=P2nNC2pMYfP2orNmNrEZbm3OP4jGRPpKKucKSK80hpE,235
 jsonschema-2.5.1.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
 jsonschema/cli.pyc,,
 jsonschema/tests/test_exceptions.pyc,,
 jsonschema/exceptions.pyc,,
 jsonschema/tests/test_format.pyc,,
+=======
+/tmp/tmpe86712/bin/jsonschema,sha256=KaUpVuI5CQ6C-9r6aCwWI1Cx_w_cu4hQnsIkTauzyB4,215
+jsonschema/cli.pyc,,
+jsonschema/tests/test_exceptions.pyc,,
+jsonschema/exceptions.pyc,,
+>>>>>>> Try building vendor files locally.
 jsonschema/_version.pyc,,
 jsonschema/tests/compat.pyc,,
 jsonschema/_validators.pyc,,
 jsonschema/tests/__init__.pyc,,
 jsonschema/_format.pyc,,
 jsonschema/validators.pyc,,
+<<<<<<< 083315c3e3a5bcd54eb71dcdda0675ff3d4bc127
 jsonschema/tests/test_validators.pyc,,
 jsonschema/_reflect.pyc,,
 jsonschema/__init__.pyc,,
@@ -46,3 +54,14 @@ jsonschema/_utils.pyc,,
 jsonschema/tests/test_jsonschema_test_suite.pyc,,
 jsonschema/tests/test_cli.pyc,,
 jsonschema/compat.pyc,,
+=======
+jsonschema/tests/test_format.pyc,,
+jsonschema/tests/test_validators.pyc,,
+jsonschema/_reflect.pyc,,
+jsonschema/tests/test_jsonschema_test_suite.pyc,,
+jsonschema/compat.pyc,,
+jsonschema/__init__.pyc,,
+jsonschema/__main__.pyc,,
+jsonschema/_utils.pyc,,
+jsonschema/tests/test_cli.pyc,,
+>>>>>>> Try building vendor files locally.

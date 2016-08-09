@@ -33,3 +33,16 @@ x=BAAMessage()
 x.sender_id = "1234"
 ```
 Also see [baa_messages.codec](./baa_messages/codec.py) for usage on the codec tools
+
+## Building LZ4 library
+The LZ4 library is required. We are going to need to build it out for Linux since the default Mac version
+does not work in a linux env.
+```
+cd [repo_location] # Note there should be a file called VagrantFile at this level
+vagrant up
+vagrant ssh
+cd /vagrant
+sudo pip install -t baa_messages/vendored/ -r requirements.txt
+```
+
+>>>>>>> Try building vendor files locally.

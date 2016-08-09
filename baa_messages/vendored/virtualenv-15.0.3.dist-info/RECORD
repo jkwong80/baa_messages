@@ -14,7 +14,11 @@ virtualenv_support/setuptools-19.6.2-py2.py3-none-any.whl,sha256=XmN0htsRR4gL9oa
 virtualenv_support/setuptools-22.0.5-py2.py3-none-any.whl,sha256=0SoBa6rBx0UdrQBI9Xd_mcTpHp2XJABKnPRHwGLhWjM,510116
 virtualenv_support/wheel-0.26.0-py2.py3-none-any.whl,sha256=yS7Tot2HxUqeIAJPsKIG_lkcNSx0X_8h6PjGzawghuo,63454
 virtualenv_support/wheel-0.29.0-py2.py3-none-any.whl,sha256=6oAz_JkFgE5lL3VHTTNBCgdATBp43TyUmmaGO9EFDr0,66878
+<<<<<<< 083315c3e3a5bcd54eb71dcdda0675ff3d4bc127
 ../../bin/virtualenv,sha256=K97jqs3bbPiitGRIXNz90qK9uTy4qfsdGGTsIxVBdtk,231
 virtualenv-15.0.3.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+=======
+/tmp/tmpe86712/bin/virtualenv,sha256=RENUhLAG0JQ4s-mYDQkiH1tgN0snJ0452DoJZbQn3s8,211
+>>>>>>> Try building vendor files locally.
 virtualenv.pyc,,
 virtualenv_support/__init__.pyc,,
