@@ -18,9 +18,9 @@
  */
 
 
-namespace py messages.core
+namespace py baa_messages.messages.core
 
-struct Context {
+struct BAAContext {
     1: required string parent_id,
     2: required double timestamp,
     3: optional list<double> location,
@@ -29,7 +29,7 @@ struct Context {
 }
 
 struct BAAMessage {
-    1: required Context context,
+    1: required BAAContext context,
     2: required string payload_class,
     3: required binary payload,
     4: optional string receiver_id

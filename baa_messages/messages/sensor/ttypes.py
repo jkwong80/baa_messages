@@ -7,7 +7,7 @@
 #
 
 from thrift.Thrift import TType, TMessageType, TException, TApplicationException
-import messages.core.ttypes
+import baa_messages.messages.core.ttypes
 
 
 from thrift.transport import TTransport
@@ -47,7 +47,7 @@ class GPSReading:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'latitude', None, None, ), # 2
     (3, TType.DOUBLE, 'longitude', None, None, ), # 3
     (4, TType.STRING, 'status', None, None, ), # 4
@@ -70,7 +70,7 @@ class GPSReading:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -157,7 +157,7 @@ class TemperatureReading:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'temperature', None, None, ), # 2
     (3, TType.STRING, 'status', None, None, ), # 3
   )
@@ -178,7 +178,7 @@ class TemperatureReading:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -258,7 +258,7 @@ class GammaReading:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'start_time', None, None, ), # 2
     (3, TType.DOUBLE, 'duration', None, None, ), # 3
     (4, TType.DOUBLE, 'live_time', None, None, ), # 4
@@ -289,7 +289,7 @@ class GammaReading:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -444,7 +444,7 @@ class NeutronReading:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'counts', None, None, ), # 2
     (3, TType.I32, 'num_channels', None, None, ), # 3
     (4, TType.MAP, 'adc_channel_counts', (TType.I32,None,TType.I32,None), None, ), # 4
@@ -469,7 +469,7 @@ class NeutronReading:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -692,7 +692,7 @@ class GPSSetting:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'poll_frequency', None, None, ), # 2
     (3, TType.LIST, 'null_value', (TType.DOUBLE,None), None, ), # 3
   )
@@ -713,7 +713,7 @@ class GPSSetting:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -794,7 +794,7 @@ class TemperatureSetting:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'poll_frequency', None, None, ), # 2
     (3, TType.LIST, 'null_value', (TType.DOUBLE,None), None, ), # 3
   )
@@ -815,7 +815,7 @@ class TemperatureSetting:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -899,7 +899,7 @@ class GammaSetting:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'sample_frequency', None, None, ), # 2
     (3, TType.DOUBLE, 'fine_gain', None, None, ), # 3
     (4, TType.DOUBLE, 'high_voltage', None, None, ), # 4
@@ -926,7 +926,7 @@ class GammaSetting:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -1029,7 +1029,7 @@ class NeutronSetting:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'sample_frequency', None, None, ), # 2
     (3, TType.DOUBLE, 'voltage', None, None, ), # 3
   )
@@ -1050,7 +1050,7 @@ class NeutronSetting:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
@@ -1232,7 +1232,7 @@ class SensorReport:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (baa_messages.messages.core.ttypes.BAAContext, baa_messages.messages.core.ttypes.BAAContext.thrift_spec), None, ), # 1
     (2, TType.LIST, 'readings', (TType.STRUCT,(SensorReading, SensorReading.thrift_spec)), None, ), # 2
     (3, TType.LIST, 'settings', (TType.STRUCT,(SensorSetting, SensorSetting.thrift_spec)), None, ), # 3
     (4, TType.LIST, 'sensor_type', (TType.I32,None), None, ), # 4
@@ -1255,7 +1255,7 @@ class SensorReport:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = messages.core.ttypes.Context()
+          self.context = baa_messages.messages.core.ttypes.BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)

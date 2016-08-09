@@ -18,7 +18,7 @@
  */
 
 
-namespace py messages.ipc
+namespace py baa_messages.messages.ipc
 
 enum RequestType {
     NO_RESP = 1,

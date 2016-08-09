@@ -18,7 +18,7 @@
  */
 
 include "core.thrift"
-namespace py messages.sensor
+namespace py baa_messages.messages.sensor
 
 
 enum SensorType {
@@ -29,20 +29,20 @@ enum SensorType {
 }
 
 struct GPSReading {
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: required double latitude,
     3: required double longitude,
     4: optional string status
 }
 
 struct TemperatureReading{
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: required double temperature,
     3: optional string status
 }
 
 struct GammaReading{
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: required double start_time,
     3: required double duration,
     4: required double live_time,
@@ -53,7 +53,7 @@ struct GammaReading{
 }
 
 struct NeutronReading {
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: required double counts,
     3: optional i32 num_channels
     4: optional map<i32,i32> adc_channel_counts,
@@ -68,19 +68,19 @@ union SensorReading {
 }
 
 struct GPSSetting {
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: optional double poll_frequency,
     3: optional list<double> null_value
 }
 
 struct TemperatureSetting {
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: optional double poll_frequency,
     3: optional list<double> null_value
 }
 
 struct GammaSetting {
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: optional double sample_frequency,
     3: optional double fine_gain,
     4: optional double high_voltage,
@@ -89,7 +89,7 @@ struct GammaSetting {
 }
 
 struct NeutronSetting {
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: optional double sample_frequency,
     3: optional double voltage
 }
@@ -102,7 +102,7 @@ union SensorSetting {
 }
 
 struct SensorReport {
-    1: required core.Context context,
+    1: required core.BAAContext context,
     2: list<SensorReading> readings,
     3: list<SensorSetting> settings,
     4: list<SensorType> sensor_type

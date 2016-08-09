@@ -17,7 +17,7 @@ except:
 
 
 
-class Context:
+class BAAContext:
   """
   Attributes:
    - parent_id
@@ -91,7 +91,7 @@ class Context:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('Context')
+    oprot.writeStructBegin('BAAContext')
     if self.parent_id is not None:
       oprot.writeFieldBegin('parent_id', TType.STRING, 1)
       oprot.writeString(self.parent_id)
@@ -157,7 +157,7 @@ class BAAMessage:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'context', (Context, Context.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'context', (BAAContext, BAAContext.thrift_spec), None, ), # 1
     (2, TType.STRING, 'payload_class', None, None, ), # 2
     (3, TType.STRING, 'payload', None, None, ), # 3
     (4, TType.STRING, 'receiver_id', None, None, ), # 4
@@ -180,7 +180,7 @@ class BAAMessage:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.context = Context()
+          self.context = BAAContext()
           self.context.read(iprot)
         else:
           iprot.skip(ftype)
