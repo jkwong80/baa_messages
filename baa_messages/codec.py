@@ -74,7 +74,7 @@ def encode_network_message(sender_id,message_time,schema_object,receiver_id=None
 
     if longitude is None:
         longitude = 0.0
-        
+
     envelope = BAAMessage(sender_id=sender_id,
                           message_time=message_time,
                           payload_class=payload_cls,

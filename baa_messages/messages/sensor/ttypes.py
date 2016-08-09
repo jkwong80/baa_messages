@@ -7,6 +7,8 @@
 #
 
 from thrift.Thrift import TType, TMessageType, TException, TApplicationException
+import messages.core.ttypes
+
 
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol, TProtocol
@@ -37,25 +39,25 @@ class SensorType:
 class GPSReading:
   """
   Attributes:
-   - sensor_id
-   - timestamp
+   - context
    - latitude
    - longitude
+   - status
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'sensor_id', None, None, ), # 1
-    (2, TType.DOUBLE, 'timestamp', None, None, ), # 2
-    (3, TType.DOUBLE, 'latitude', None, None, ), # 3
-    (4, TType.DOUBLE, 'longitude', None, None, ), # 4
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.DOUBLE, 'latitude', None, None, ), # 2
+    (3, TType.DOUBLE, 'longitude', None, None, ), # 3
+    (4, TType.STRING, 'status', None, None, ), # 4
   )
 
-  def __init__(self, sensor_id=None, timestamp=None, latitude=None, longitude=None,):
-    self.sensor_id = sensor_id
-    self.timestamp = timestamp
+  def __init__(self, context=None, latitude=None, longitude=None, status=None,):
+    self.context = context
     self.latitude = latitude
     self.longitude = longitude
+    self.status = status
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -67,23 +69,24 @@ class GPSReading:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRING:
-          self.sensor_id = iprot.readString()
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.DOUBLE:
-          self.timestamp = iprot.readDouble()
+          self.latitude = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.DOUBLE:
-          self.latitude = iprot.readDouble()
+          self.longitude = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 4:
-        if ftype == TType.DOUBLE:
-          self.longitude = iprot.readDouble()
+        if ftype == TType.STRING:
+          self.status = iprot.readString()
         else:
           iprot.skip(ftype)
       else:
@@ -96,30 +99,28 @@ class GPSReading:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('GPSReading')
-    if self.sensor_id is not None:
-      oprot.writeFieldBegin('sensor_id', TType.STRING, 1)
-      oprot.writeString(self.sensor_id)
-      oprot.writeFieldEnd()
-    if self.timestamp is not None:
-      oprot.writeFieldBegin('timestamp', TType.DOUBLE, 2)
-      oprot.writeDouble(self.timestamp)
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
       oprot.writeFieldEnd()
     if self.latitude is not None:
-      oprot.writeFieldBegin('latitude', TType.DOUBLE, 3)
+      oprot.writeFieldBegin('latitude', TType.DOUBLE, 2)
       oprot.writeDouble(self.latitude)
       oprot.writeFieldEnd()
     if self.longitude is not None:
-      oprot.writeFieldBegin('longitude', TType.DOUBLE, 4)
+      oprot.writeFieldBegin('longitude', TType.DOUBLE, 3)
       oprot.writeDouble(self.longitude)
+      oprot.writeFieldEnd()
+    if self.status is not None:
+      oprot.writeFieldBegin('status', TType.STRING, 4)
+      oprot.writeString(self.status)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.sensor_id is None:
-      raise TProtocol.TProtocolException(message='Required field sensor_id is unset!')
-    if self.timestamp is None:
-      raise TProtocol.TProtocolException(message='Required field timestamp is unset!')
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     if self.latitude is None:
       raise TProtocol.TProtocolException(message='Required field latitude is unset!')
     if self.longitude is None:
@@ -129,10 +130,10 @@ class GPSReading:
 
   def __hash__(self):
     value = 17
-    value = (value * 31) ^ hash(self.sensor_id)
-    value = (value * 31) ^ hash(self.timestamp)
+    value = (value * 31) ^ hash(self.context)
     value = (value * 31) ^ hash(self.latitude)
     value = (value * 31) ^ hash(self.longitude)
+    value = (value * 31) ^ hash(self.status)
     return value
 
   def __repr__(self):
@@ -149,19 +150,22 @@ class GPSReading:
 class TemperatureReading:
   """
   Attributes:
-   - timestamp
+   - context
    - temperature
+   - status
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.DOUBLE, 'timestamp', None, None, ), # 1
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
     (2, TType.DOUBLE, 'temperature', None, None, ), # 2
+    (3, TType.STRING, 'status', None, None, ), # 3
   )
 
-  def __init__(self, timestamp=None, temperature=None,):
-    self.timestamp = timestamp
+  def __init__(self, context=None, temperature=None, status=None,):
+    self.context = context
     self.temperature = temperature
+    self.status = status
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -173,13 +177,19 @@ class TemperatureReading:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.DOUBLE:
-          self.timestamp = iprot.readDouble()
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.DOUBLE:
           self.temperature = iprot.readDouble()
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.status = iprot.readString()
         else:
           iprot.skip(ftype)
       else:
@@ -192,20 +202,24 @@ class TemperatureReading:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('TemperatureReading')
-    if self.timestamp is not None:
-      oprot.writeFieldBegin('timestamp', TType.DOUBLE, 1)
-      oprot.writeDouble(self.timestamp)
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
       oprot.writeFieldEnd()
     if self.temperature is not None:
       oprot.writeFieldBegin('temperature', TType.DOUBLE, 2)
       oprot.writeDouble(self.temperature)
       oprot.writeFieldEnd()
+    if self.status is not None:
+      oprot.writeFieldBegin('status', TType.STRING, 3)
+      oprot.writeString(self.status)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.timestamp is None:
-      raise TProtocol.TProtocolException(message='Required field timestamp is unset!')
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     if self.temperature is None:
       raise TProtocol.TProtocolException(message='Required field temperature is unset!')
     return
@@ -213,8 +227,9 @@ class TemperatureReading:
 
   def __hash__(self):
     value = 17
-    value = (value * 31) ^ hash(self.timestamp)
+    value = (value * 31) ^ hash(self.context)
     value = (value * 31) ^ hash(self.temperature)
+    value = (value * 31) ^ hash(self.status)
     return value
 
   def __repr__(self):
@@ -231,28 +246,37 @@ class TemperatureReading:
 class GammaReading:
   """
   Attributes:
+   - context
    - start_time
    - duration
    - live_time
+   - num_channels
    - adc_channel_counts
-   - bin_energies
+   - channel_energies
+   - gross_counts
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.DOUBLE, 'start_time', None, None, ), # 1
-    (2, TType.DOUBLE, 'duration', None, None, ), # 2
-    (3, TType.DOUBLE, 'live_time', None, None, ), # 3
-    (4, TType.LIST, 'adc_channel_counts', (TType.I32,None), None, ), # 4
-    (5, TType.LIST, 'bin_energies', (TType.DOUBLE,None), None, ), # 5
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.DOUBLE, 'start_time', None, None, ), # 2
+    (3, TType.DOUBLE, 'duration', None, None, ), # 3
+    (4, TType.DOUBLE, 'live_time', None, None, ), # 4
+    (5, TType.I32, 'num_channels', None, None, ), # 5
+    (6, TType.MAP, 'adc_channel_counts', (TType.I32,None,TType.I32,None), None, ), # 6
+    (7, TType.MAP, 'channel_energies', (TType.DOUBLE,None,TType.DOUBLE,None), None, ), # 7
+    (8, TType.DOUBLE, 'gross_counts', None, None, ), # 8
   )
 
-  def __init__(self, start_time=None, duration=None, live_time=None, adc_channel_counts=None, bin_energies=None,):
+  def __init__(self, context=None, start_time=None, duration=None, live_time=None, num_channels=None, adc_channel_counts=None, channel_energies=None, gross_counts=None,):
+    self.context = context
     self.start_time = start_time
     self.duration = duration
     self.live_time = live_time
+    self.num_channels = num_channels
     self.adc_channel_counts = adc_channel_counts
-    self.bin_energies = bin_energies
+    self.channel_energies = channel_energies
+    self.gross_counts = gross_counts
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -264,38 +288,56 @@ class GammaReading:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.DOUBLE:
-          self.start_time = iprot.readDouble()
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.DOUBLE:
-          self.duration = iprot.readDouble()
+          self.start_time = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.DOUBLE:
-          self.live_time = iprot.readDouble()
+          self.duration = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 4:
-        if ftype == TType.LIST:
-          self.adc_channel_counts = []
-          (_etype3, _size0) = iprot.readListBegin()
-          for _i4 in xrange(_size0):
-            _elem5 = iprot.readI32()
-            self.adc_channel_counts.append(_elem5)
-          iprot.readListEnd()
+        if ftype == TType.DOUBLE:
+          self.live_time = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 5:
-        if ftype == TType.LIST:
-          self.bin_energies = []
-          (_etype9, _size6) = iprot.readListBegin()
-          for _i10 in xrange(_size6):
-            _elem11 = iprot.readDouble()
-            self.bin_energies.append(_elem11)
-          iprot.readListEnd()
+        if ftype == TType.I32:
+          self.num_channels = iprot.readI32()
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.MAP:
+          self.adc_channel_counts = {}
+          (_ktype1, _vtype2, _size0 ) = iprot.readMapBegin()
+          for _i4 in xrange(_size0):
+            _key5 = iprot.readI32()
+            _val6 = iprot.readI32()
+            self.adc_channel_counts[_key5] = _val6
+          iprot.readMapEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.MAP:
+          self.channel_energies = {}
+          (_ktype8, _vtype9, _size7 ) = iprot.readMapBegin()
+          for _i11 in xrange(_size7):
+            _key12 = iprot.readDouble()
+            _val13 = iprot.readDouble()
+            self.channel_energies[_key12] = _val13
+          iprot.readMapEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 8:
+        if ftype == TType.DOUBLE:
+          self.gross_counts = iprot.readDouble()
         else:
           iprot.skip(ftype)
       else:
@@ -308,42 +350,60 @@ class GammaReading:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('GammaReading')
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
+      oprot.writeFieldEnd()
     if self.start_time is not None:
-      oprot.writeFieldBegin('start_time', TType.DOUBLE, 1)
+      oprot.writeFieldBegin('start_time', TType.DOUBLE, 2)
       oprot.writeDouble(self.start_time)
       oprot.writeFieldEnd()
     if self.duration is not None:
-      oprot.writeFieldBegin('duration', TType.DOUBLE, 2)
+      oprot.writeFieldBegin('duration', TType.DOUBLE, 3)
       oprot.writeDouble(self.duration)
       oprot.writeFieldEnd()
     if self.live_time is not None:
-      oprot.writeFieldBegin('live_time', TType.DOUBLE, 3)
+      oprot.writeFieldBegin('live_time', TType.DOUBLE, 4)
       oprot.writeDouble(self.live_time)
       oprot.writeFieldEnd()
-    if self.adc_channel_counts is not None:
-      oprot.writeFieldBegin('adc_channel_counts', TType.LIST, 4)
-      oprot.writeListBegin(TType.I32, len(self.adc_channel_counts))
-      for iter12 in self.adc_channel_counts:
-        oprot.writeI32(iter12)
-      oprot.writeListEnd()
+    if self.num_channels is not None:
+      oprot.writeFieldBegin('num_channels', TType.I32, 5)
+      oprot.writeI32(self.num_channels)
       oprot.writeFieldEnd()
-    if self.bin_energies is not None:
-      oprot.writeFieldBegin('bin_energies', TType.LIST, 5)
-      oprot.writeListBegin(TType.DOUBLE, len(self.bin_energies))
-      for iter13 in self.bin_energies:
-        oprot.writeDouble(iter13)
-      oprot.writeListEnd()
+    if self.adc_channel_counts is not None:
+      oprot.writeFieldBegin('adc_channel_counts', TType.MAP, 6)
+      oprot.writeMapBegin(TType.I32, TType.I32, len(self.adc_channel_counts))
+      for kiter14,viter15 in self.adc_channel_counts.items():
+        oprot.writeI32(kiter14)
+        oprot.writeI32(viter15)
+      oprot.writeMapEnd()
+      oprot.writeFieldEnd()
+    if self.channel_energies is not None:
+      oprot.writeFieldBegin('channel_energies', TType.MAP, 7)
+      oprot.writeMapBegin(TType.DOUBLE, TType.DOUBLE, len(self.channel_energies))
+      for kiter16,viter17 in self.channel_energies.items():
+        oprot.writeDouble(kiter16)
+        oprot.writeDouble(viter17)
+      oprot.writeMapEnd()
+      oprot.writeFieldEnd()
+    if self.gross_counts is not None:
+      oprot.writeFieldBegin('gross_counts', TType.DOUBLE, 8)
+      oprot.writeDouble(self.gross_counts)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     if self.start_time is None:
       raise TProtocol.TProtocolException(message='Required field start_time is unset!')
     if self.duration is None:
       raise TProtocol.TProtocolException(message='Required field duration is unset!')
     if self.live_time is None:
       raise TProtocol.TProtocolException(message='Required field live_time is unset!')
+    if self.num_channels is None:
+      raise TProtocol.TProtocolException(message='Required field num_channels is unset!')
     if self.adc_channel_counts is None:
       raise TProtocol.TProtocolException(message='Required field adc_channel_counts is unset!')
     return
@@ -351,11 +411,14 @@ class GammaReading:
 
   def __hash__(self):
     value = 17
+    value = (value * 31) ^ hash(self.context)
     value = (value * 31) ^ hash(self.start_time)
     value = (value * 31) ^ hash(self.duration)
     value = (value * 31) ^ hash(self.live_time)
+    value = (value * 31) ^ hash(self.num_channels)
     value = (value * 31) ^ hash(self.adc_channel_counts)
-    value = (value * 31) ^ hash(self.bin_energies)
+    value = (value * 31) ^ hash(self.channel_energies)
+    value = (value * 31) ^ hash(self.gross_counts)
     return value
 
   def __repr__(self):
@@ -372,16 +435,28 @@ class GammaReading:
 class NeutronReading:
   """
   Attributes:
+   - context
    - counts
+   - num_channels
+   - adc_channel_counts
+   - channel_energies
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.DOUBLE, 'counts', None, None, ), # 1
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.DOUBLE, 'counts', None, None, ), # 2
+    (3, TType.I32, 'num_channels', None, None, ), # 3
+    (4, TType.MAP, 'adc_channel_counts', (TType.I32,None,TType.I32,None), None, ), # 4
+    (5, TType.MAP, 'channel_energies', (TType.DOUBLE,None,TType.DOUBLE,None), None, ), # 5
   )
 
-  def __init__(self, counts=None,):
+  def __init__(self, context=None, counts=None, num_channels=None, adc_channel_counts=None, channel_energies=None,):
+    self.context = context
     self.counts = counts
+    self.num_channels = num_channels
+    self.adc_channel_counts = adc_channel_counts
+    self.channel_energies = channel_energies
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -393,8 +468,41 @@ class NeutronReading:
       if ftype == TType.STOP:
         break
       if fid == 1:
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
         if ftype == TType.DOUBLE:
           self.counts = iprot.readDouble()
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.I32:
+          self.num_channels = iprot.readI32()
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.MAP:
+          self.adc_channel_counts = {}
+          (_ktype19, _vtype20, _size18 ) = iprot.readMapBegin()
+          for _i22 in xrange(_size18):
+            _key23 = iprot.readI32()
+            _val24 = iprot.readI32()
+            self.adc_channel_counts[_key23] = _val24
+          iprot.readMapEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.MAP:
+          self.channel_energies = {}
+          (_ktype26, _vtype27, _size25 ) = iprot.readMapBegin()
+          for _i29 in xrange(_size25):
+            _key30 = iprot.readDouble()
+            _val31 = iprot.readDouble()
+            self.channel_energies[_key30] = _val31
+          iprot.readMapEnd()
         else:
           iprot.skip(ftype)
       else:
@@ -407,14 +515,40 @@ class NeutronReading:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('NeutronReading')
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
+      oprot.writeFieldEnd()
     if self.counts is not None:
-      oprot.writeFieldBegin('counts', TType.DOUBLE, 1)
+      oprot.writeFieldBegin('counts', TType.DOUBLE, 2)
       oprot.writeDouble(self.counts)
+      oprot.writeFieldEnd()
+    if self.num_channels is not None:
+      oprot.writeFieldBegin('num_channels', TType.I32, 3)
+      oprot.writeI32(self.num_channels)
+      oprot.writeFieldEnd()
+    if self.adc_channel_counts is not None:
+      oprot.writeFieldBegin('adc_channel_counts', TType.MAP, 4)
+      oprot.writeMapBegin(TType.I32, TType.I32, len(self.adc_channel_counts))
+      for kiter32,viter33 in self.adc_channel_counts.items():
+        oprot.writeI32(kiter32)
+        oprot.writeI32(viter33)
+      oprot.writeMapEnd()
+      oprot.writeFieldEnd()
+    if self.channel_energies is not None:
+      oprot.writeFieldBegin('channel_energies', TType.MAP, 5)
+      oprot.writeMapBegin(TType.DOUBLE, TType.DOUBLE, len(self.channel_energies))
+      for kiter34,viter35 in self.channel_energies.items():
+        oprot.writeDouble(kiter34)
+        oprot.writeDouble(viter35)
+      oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     if self.counts is None:
       raise TProtocol.TProtocolException(message='Required field counts is unset!')
     return
@@ -422,7 +556,11 @@ class NeutronReading:
 
   def __hash__(self):
     value = 17
+    value = (value * 31) ^ hash(self.context)
     value = (value * 31) ^ hash(self.counts)
+    value = (value * 31) ^ hash(self.num_channels)
+    value = (value * 31) ^ hash(self.adc_channel_counts)
+    value = (value * 31) ^ hash(self.channel_energies)
     return value
 
   def __repr__(self):
@@ -544,31 +682,25 @@ class SensorReading:
   def __ne__(self, other):
     return not (self == other)
 
-class SensorReadingReport:
+class GPSSetting:
   """
   Attributes:
-   - sensor_id
-   - timestamp
-   - sensor_type
-   - sensor_reading
-   - sensor_unit_id
+   - context
+   - poll_frequency
+   - null_value
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'sensor_id', None, None, ), # 1
-    (2, TType.DOUBLE, 'timestamp', None, None, ), # 2
-    (3, TType.I32, 'sensor_type', None, None, ), # 3
-    (4, TType.STRUCT, 'sensor_reading', (SensorReading, SensorReading.thrift_spec), None, ), # 4
-    (5, TType.STRING, 'sensor_unit_id', None, None, ), # 5
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.DOUBLE, 'poll_frequency', None, None, ), # 2
+    (3, TType.LIST, 'null_value', (TType.DOUBLE,None), None, ), # 3
   )
 
-  def __init__(self, sensor_id=None, timestamp=None, sensor_type=None, sensor_reading=None, sensor_unit_id=None,):
-    self.sensor_id = sensor_id
-    self.timestamp = timestamp
-    self.sensor_type = sensor_type
-    self.sensor_reading = sensor_reading
-    self.sensor_unit_id = sensor_unit_id
+  def __init__(self, context=None, poll_frequency=None, null_value=None,):
+    self.context = context
+    self.poll_frequency = poll_frequency
+    self.null_value = null_value
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -580,122 +712,24 @@ class SensorReadingReport:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRING:
-          self.sensor_id = iprot.readString()
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.DOUBLE:
-          self.timestamp = iprot.readDouble()
+          self.poll_frequency = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 3:
-        if ftype == TType.I32:
-          self.sensor_type = iprot.readI32()
-        else:
-          iprot.skip(ftype)
-      elif fid == 4:
-        if ftype == TType.STRUCT:
-          self.sensor_reading = SensorReading()
-          self.sensor_reading.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 5:
-        if ftype == TType.STRING:
-          self.sensor_unit_id = iprot.readString()
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('SensorReadingReport')
-    if self.sensor_id is not None:
-      oprot.writeFieldBegin('sensor_id', TType.STRING, 1)
-      oprot.writeString(self.sensor_id)
-      oprot.writeFieldEnd()
-    if self.timestamp is not None:
-      oprot.writeFieldBegin('timestamp', TType.DOUBLE, 2)
-      oprot.writeDouble(self.timestamp)
-      oprot.writeFieldEnd()
-    if self.sensor_type is not None:
-      oprot.writeFieldBegin('sensor_type', TType.I32, 3)
-      oprot.writeI32(self.sensor_type)
-      oprot.writeFieldEnd()
-    if self.sensor_reading is not None:
-      oprot.writeFieldBegin('sensor_reading', TType.STRUCT, 4)
-      self.sensor_reading.write(oprot)
-      oprot.writeFieldEnd()
-    if self.sensor_unit_id is not None:
-      oprot.writeFieldBegin('sensor_unit_id', TType.STRING, 5)
-      oprot.writeString(self.sensor_unit_id)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    if self.sensor_id is None:
-      raise TProtocol.TProtocolException(message='Required field sensor_id is unset!')
-    if self.timestamp is None:
-      raise TProtocol.TProtocolException(message='Required field timestamp is unset!')
-    if self.sensor_type is None:
-      raise TProtocol.TProtocolException(message='Required field sensor_type is unset!')
-    if self.sensor_reading is None:
-      raise TProtocol.TProtocolException(message='Required field sensor_reading is unset!')
-    return
-
-
-  def __hash__(self):
-    value = 17
-    value = (value * 31) ^ hash(self.sensor_id)
-    value = (value * 31) ^ hash(self.timestamp)
-    value = (value * 31) ^ hash(self.sensor_type)
-    value = (value * 31) ^ hash(self.sensor_reading)
-    value = (value * 31) ^ hash(self.sensor_unit_id)
-    return value
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class GPSSetting:
-  """
-  Attributes:
-   - sample_frequency
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.DOUBLE, 'sample_frequency', None, None, ), # 1
-  )
-
-  def __init__(self, sample_frequency=None,):
-    self.sample_frequency = sample_frequency
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.DOUBLE:
-          self.sample_frequency = iprot.readDouble()
+        if ftype == TType.LIST:
+          self.null_value = []
+          (_etype39, _size36) = iprot.readListBegin()
+          for _i40 in xrange(_size36):
+            _elem41 = iprot.readDouble()
+            self.null_value.append(_elem41)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       else:
@@ -708,20 +742,35 @@ class GPSSetting:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('GPSSetting')
-    if self.sample_frequency is not None:
-      oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 1)
-      oprot.writeDouble(self.sample_frequency)
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
+      oprot.writeFieldEnd()
+    if self.poll_frequency is not None:
+      oprot.writeFieldBegin('poll_frequency', TType.DOUBLE, 2)
+      oprot.writeDouble(self.poll_frequency)
+      oprot.writeFieldEnd()
+    if self.null_value is not None:
+      oprot.writeFieldBegin('null_value', TType.LIST, 3)
+      oprot.writeListBegin(TType.DOUBLE, len(self.null_value))
+      for iter42 in self.null_value:
+        oprot.writeDouble(iter42)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     return
 
 
   def __hash__(self):
     value = 17
-    value = (value * 31) ^ hash(self.sample_frequency)
+    value = (value * 31) ^ hash(self.context)
+    value = (value * 31) ^ hash(self.poll_frequency)
+    value = (value * 31) ^ hash(self.null_value)
     return value
 
   def __repr__(self):
@@ -738,16 +787,22 @@ class GPSSetting:
 class TemperatureSetting:
   """
   Attributes:
-   - sample_frequency
+   - context
+   - poll_frequency
+   - null_value
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.DOUBLE, 'sample_frequency', None, None, ), # 1
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.DOUBLE, 'poll_frequency', None, None, ), # 2
+    (3, TType.LIST, 'null_value', (TType.DOUBLE,None), None, ), # 3
   )
 
-  def __init__(self, sample_frequency=None,):
-    self.sample_frequency = sample_frequency
+  def __init__(self, context=None, poll_frequency=None, null_value=None,):
+    self.context = context
+    self.poll_frequency = poll_frequency
+    self.null_value = null_value
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -759,8 +814,24 @@ class TemperatureSetting:
       if ftype == TType.STOP:
         break
       if fid == 1:
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
         if ftype == TType.DOUBLE:
-          self.sample_frequency = iprot.readDouble()
+          self.poll_frequency = iprot.readDouble()
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.LIST:
+          self.null_value = []
+          (_etype46, _size43) = iprot.readListBegin()
+          for _i47 in xrange(_size43):
+            _elem48 = iprot.readDouble()
+            self.null_value.append(_elem48)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       else:
@@ -773,20 +844,35 @@ class TemperatureSetting:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('TemperatureSetting')
-    if self.sample_frequency is not None:
-      oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 1)
-      oprot.writeDouble(self.sample_frequency)
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
+      oprot.writeFieldEnd()
+    if self.poll_frequency is not None:
+      oprot.writeFieldBegin('poll_frequency', TType.DOUBLE, 2)
+      oprot.writeDouble(self.poll_frequency)
+      oprot.writeFieldEnd()
+    if self.null_value is not None:
+      oprot.writeFieldBegin('null_value', TType.LIST, 3)
+      oprot.writeListBegin(TType.DOUBLE, len(self.null_value))
+      for iter49 in self.null_value:
+        oprot.writeDouble(iter49)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     return
 
 
   def __hash__(self):
     value = 17
-    value = (value * 31) ^ hash(self.sample_frequency)
+    value = (value * 31) ^ hash(self.context)
+    value = (value * 31) ^ hash(self.poll_frequency)
+    value = (value * 31) ^ hash(self.null_value)
     return value
 
   def __repr__(self):
@@ -803,6 +889,7 @@ class TemperatureSetting:
 class GammaSetting:
   """
   Attributes:
+   - context
    - sample_frequency
    - fine_gain
    - high_voltage
@@ -812,14 +899,16 @@ class GammaSetting:
 
   thrift_spec = (
     None, # 0
-    (1, TType.DOUBLE, 'sample_frequency', None, None, ), # 1
-    (2, TType.DOUBLE, 'fine_gain', None, None, ), # 2
-    (3, TType.DOUBLE, 'high_voltage', None, None, ), # 3
-    (4, TType.DOUBLE, 'lld', None, None, ), # 4
-    (5, TType.DOUBLE, 'uld', None, None, ), # 5
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.DOUBLE, 'sample_frequency', None, None, ), # 2
+    (3, TType.DOUBLE, 'fine_gain', None, None, ), # 3
+    (4, TType.DOUBLE, 'high_voltage', None, None, ), # 4
+    (5, TType.DOUBLE, 'lld', None, None, ), # 5
+    (6, TType.DOUBLE, 'uld', None, None, ), # 6
   )
 
-  def __init__(self, sample_frequency=None, fine_gain=None, high_voltage=None, lld=None, uld=None,):
+  def __init__(self, context=None, sample_frequency=None, fine_gain=None, high_voltage=None, lld=None, uld=None,):
+    self.context = context
     self.sample_frequency = sample_frequency
     self.fine_gain = fine_gain
     self.high_voltage = high_voltage
@@ -836,26 +925,32 @@ class GammaSetting:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.DOUBLE:
-          self.sample_frequency = iprot.readDouble()
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.DOUBLE:
-          self.fine_gain = iprot.readDouble()
+          self.sample_frequency = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.DOUBLE:
-          self.high_voltage = iprot.readDouble()
+          self.fine_gain = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 4:
         if ftype == TType.DOUBLE:
-          self.lld = iprot.readDouble()
+          self.high_voltage = iprot.readDouble()
         else:
           iprot.skip(ftype)
       elif fid == 5:
+        if ftype == TType.DOUBLE:
+          self.lld = iprot.readDouble()
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
         if ftype == TType.DOUBLE:
           self.uld = iprot.readDouble()
         else:
@@ -870,35 +965,42 @@ class GammaSetting:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('GammaSetting')
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
+      oprot.writeFieldEnd()
     if self.sample_frequency is not None:
-      oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 1)
+      oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 2)
       oprot.writeDouble(self.sample_frequency)
       oprot.writeFieldEnd()
     if self.fine_gain is not None:
-      oprot.writeFieldBegin('fine_gain', TType.DOUBLE, 2)
+      oprot.writeFieldBegin('fine_gain', TType.DOUBLE, 3)
       oprot.writeDouble(self.fine_gain)
       oprot.writeFieldEnd()
     if self.high_voltage is not None:
-      oprot.writeFieldBegin('high_voltage', TType.DOUBLE, 3)
+      oprot.writeFieldBegin('high_voltage', TType.DOUBLE, 4)
       oprot.writeDouble(self.high_voltage)
       oprot.writeFieldEnd()
     if self.lld is not None:
-      oprot.writeFieldBegin('lld', TType.DOUBLE, 4)
+      oprot.writeFieldBegin('lld', TType.DOUBLE, 5)
       oprot.writeDouble(self.lld)
       oprot.writeFieldEnd()
     if self.uld is not None:
-      oprot.writeFieldBegin('uld', TType.DOUBLE, 5)
+      oprot.writeFieldBegin('uld', TType.DOUBLE, 6)
       oprot.writeDouble(self.uld)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     return
 
 
   def __hash__(self):
     value = 17
+    value = (value * 31) ^ hash(self.context)
     value = (value * 31) ^ hash(self.sample_frequency)
     value = (value * 31) ^ hash(self.fine_gain)
     value = (value * 31) ^ hash(self.high_voltage)
@@ -920,17 +1022,20 @@ class GammaSetting:
 class NeutronSetting:
   """
   Attributes:
+   - context
    - sample_frequency
    - voltage
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.DOUBLE, 'sample_frequency', None, None, ), # 1
-    (2, TType.DOUBLE, 'voltage', None, None, ), # 2
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.DOUBLE, 'sample_frequency', None, None, ), # 2
+    (3, TType.DOUBLE, 'voltage', None, None, ), # 3
   )
 
-  def __init__(self, sample_frequency=None, voltage=None,):
+  def __init__(self, context=None, sample_frequency=None, voltage=None,):
+    self.context = context
     self.sample_frequency = sample_frequency
     self.voltage = voltage
 
@@ -944,11 +1049,17 @@ class NeutronSetting:
       if ftype == TType.STOP:
         break
       if fid == 1:
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
         if ftype == TType.DOUBLE:
           self.sample_frequency = iprot.readDouble()
         else:
           iprot.skip(ftype)
-      elif fid == 2:
+      elif fid == 3:
         if ftype == TType.DOUBLE:
           self.voltage = iprot.readDouble()
         else:
@@ -963,23 +1074,30 @@ class NeutronSetting:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('NeutronSetting')
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
+      oprot.writeFieldEnd()
     if self.sample_frequency is not None:
-      oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 1)
+      oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 2)
       oprot.writeDouble(self.sample_frequency)
       oprot.writeFieldEnd()
     if self.voltage is not None:
-      oprot.writeFieldBegin('voltage', TType.DOUBLE, 2)
+      oprot.writeFieldBegin('voltage', TType.DOUBLE, 3)
       oprot.writeDouble(self.voltage)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     return
 
 
   def __hash__(self):
     value = 17
+    value = (value * 31) ^ hash(self.context)
     value = (value * 31) ^ hash(self.sample_frequency)
     value = (value * 31) ^ hash(self.voltage)
     return value
@@ -1103,31 +1221,28 @@ class SensorSetting:
   def __ne__(self, other):
     return not (self == other)
 
-class SensorSettingReport:
+class SensorReport:
   """
   Attributes:
-   - sensor_id
-   - timestamp
+   - context
+   - readings
+   - settings
    - sensor_type
-   - sensor_setting
-   - sensor_unit_id
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'sensor_id', None, None, ), # 1
-    (2, TType.DOUBLE, 'timestamp', None, None, ), # 2
-    (3, TType.I32, 'sensor_type', None, None, ), # 3
-    (4, TType.STRUCT, 'sensor_setting', (SensorReading, SensorReading.thrift_spec), None, ), # 4
-    (5, TType.STRING, 'sensor_unit_id', None, None, ), # 5
+    (1, TType.STRUCT, 'context', (messages.core.ttypes.Context, messages.core.ttypes.Context.thrift_spec), None, ), # 1
+    (2, TType.LIST, 'readings', (TType.STRUCT,(SensorReading, SensorReading.thrift_spec)), None, ), # 2
+    (3, TType.LIST, 'settings', (TType.STRUCT,(SensorSetting, SensorSetting.thrift_spec)), None, ), # 3
+    (4, TType.LIST, 'sensor_type', (TType.I32,None), None, ), # 4
   )
 
-  def __init__(self, sensor_id=None, timestamp=None, sensor_type=None, sensor_setting=None, sensor_unit_id=None,):
-    self.sensor_id = sensor_id
-    self.timestamp = timestamp
+  def __init__(self, context=None, readings=None, settings=None, sensor_type=None,):
+    self.context = context
+    self.readings = readings
+    self.settings = settings
     self.sensor_type = sensor_type
-    self.sensor_setting = sensor_setting
-    self.sensor_unit_id = sensor_unit_id
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1139,29 +1254,41 @@ class SensorSettingReport:
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRING:
-          self.sensor_id = iprot.readString()
+        if ftype == TType.STRUCT:
+          self.context = messages.core.ttypes.Context()
+          self.context.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.DOUBLE:
-          self.timestamp = iprot.readDouble()
+        if ftype == TType.LIST:
+          self.readings = []
+          (_etype53, _size50) = iprot.readListBegin()
+          for _i54 in xrange(_size50):
+            _elem55 = SensorReading()
+            _elem55.read(iprot)
+            self.readings.append(_elem55)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 3:
-        if ftype == TType.I32:
-          self.sensor_type = iprot.readI32()
+        if ftype == TType.LIST:
+          self.settings = []
+          (_etype59, _size56) = iprot.readListBegin()
+          for _i60 in xrange(_size56):
+            _elem61 = SensorSetting()
+            _elem61.read(iprot)
+            self.settings.append(_elem61)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       elif fid == 4:
-        if ftype == TType.STRUCT:
-          self.sensor_setting = SensorReading()
-          self.sensor_setting.read(iprot)
-        else:
-          iprot.skip(ftype)
-      elif fid == 5:
-        if ftype == TType.STRING:
-          self.sensor_unit_id = iprot.readString()
+        if ftype == TType.LIST:
+          self.sensor_type = []
+          (_etype65, _size62) = iprot.readListBegin()
+          for _i66 in xrange(_size62):
+            _elem67 = iprot.readI32()
+            self.sensor_type.append(_elem67)
+          iprot.readListEnd()
         else:
           iprot.skip(ftype)
       else:
@@ -1173,49 +1300,47 @@ class SensorSettingReport:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('SensorSettingReport')
-    if self.sensor_id is not None:
-      oprot.writeFieldBegin('sensor_id', TType.STRING, 1)
-      oprot.writeString(self.sensor_id)
+    oprot.writeStructBegin('SensorReport')
+    if self.context is not None:
+      oprot.writeFieldBegin('context', TType.STRUCT, 1)
+      self.context.write(oprot)
       oprot.writeFieldEnd()
-    if self.timestamp is not None:
-      oprot.writeFieldBegin('timestamp', TType.DOUBLE, 2)
-      oprot.writeDouble(self.timestamp)
+    if self.readings is not None:
+      oprot.writeFieldBegin('readings', TType.LIST, 2)
+      oprot.writeListBegin(TType.STRUCT, len(self.readings))
+      for iter68 in self.readings:
+        iter68.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    if self.settings is not None:
+      oprot.writeFieldBegin('settings', TType.LIST, 3)
+      oprot.writeListBegin(TType.STRUCT, len(self.settings))
+      for iter69 in self.settings:
+        iter69.write(oprot)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.sensor_type is not None:
-      oprot.writeFieldBegin('sensor_type', TType.I32, 3)
-      oprot.writeI32(self.sensor_type)
-      oprot.writeFieldEnd()
-    if self.sensor_setting is not None:
-      oprot.writeFieldBegin('sensor_setting', TType.STRUCT, 4)
-      self.sensor_setting.write(oprot)
-      oprot.writeFieldEnd()
-    if self.sensor_unit_id is not None:
-      oprot.writeFieldBegin('sensor_unit_id', TType.STRING, 5)
-      oprot.writeString(self.sensor_unit_id)
+      oprot.writeFieldBegin('sensor_type', TType.LIST, 4)
+      oprot.writeListBegin(TType.I32, len(self.sensor_type))
+      for iter70 in self.sensor_type:
+        oprot.writeI32(iter70)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.sensor_id is None:
-      raise TProtocol.TProtocolException(message='Required field sensor_id is unset!')
-    if self.timestamp is None:
-      raise TProtocol.TProtocolException(message='Required field timestamp is unset!')
-    if self.sensor_type is None:
-      raise TProtocol.TProtocolException(message='Required field sensor_type is unset!')
-    if self.sensor_setting is None:
-      raise TProtocol.TProtocolException(message='Required field sensor_setting is unset!')
+    if self.context is None:
+      raise TProtocol.TProtocolException(message='Required field context is unset!')
     return
 
 
   def __hash__(self):
     value = 17
-    value = (value * 31) ^ hash(self.sensor_id)
-    value = (value * 31) ^ hash(self.timestamp)
+    value = (value * 31) ^ hash(self.context)
+    value = (value * 31) ^ hash(self.readings)
+    value = (value * 31) ^ hash(self.settings)
     value = (value * 31) ^ hash(self.sensor_type)
-    value = (value * 31) ^ hash(self.sensor_setting)
-    value = (value * 31) ^ hash(self.sensor_unit_id)
     return value
 
   def __repr__(self):

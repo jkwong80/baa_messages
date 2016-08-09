@@ -20,14 +20,18 @@
 
 namespace py messages.core
 
+struct Context {
+    1: required string parent_id,
+    2: required double timestamp,
+    3: optional list<double> location,
+    4: optional i32 sensor_id,
+    5: optional i32 sensor_unit_id
+}
+
 struct BAAMessage {
-    1: required string sender_id,
-    2: required double message_time,
-    3: required string payload_class,
-    4: required binary payload,
-    5: optional string receiver_id,
-    6: optional list<double> gps_coordinates,
-    7: optional i32 sensor_id,
-    8: optional i32 sensor_unit_id
+    1: required Context context,
+    2: required string payload_class,
+    3: required binary payload,
+    4: optional string receiver_id
 }
 
