@@ -1,8 +1,0 @@
-../pyterminalsize.py
-../pyterminalsize.pyc
-../_pyterminalsize.so
-./
-SOURCES.txt
-top_level.txt
-dependency_links.txt
-PKG-INFO

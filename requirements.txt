@@ -1,6 +1,5 @@
 pre-commit
 thrift
-lz4tools
 AWSIoTPythonSDK
 Enum
 pypubsub
