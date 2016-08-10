@@ -110,7 +110,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     echo "build"
     cd /vagrant/
-    sudo pip install -t baa_messages/vendored/ -r requirements.txt
+    sudo pip install -t baa_messages/vendored/ -r vendor-requirements.txt
   SHELL
 
 end

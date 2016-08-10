@@ -1,9 +1,0 @@
-../enum.py
-../enum.pyc
-./
-requires.txt
-SOURCES.txt
-top_level.txt
-dependency_links.txt
-PKG-INFO
-not-zip-safe
