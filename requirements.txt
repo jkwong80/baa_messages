@@ -3,3 +3,4 @@ thrift
 lz4tools
 AWSIoTPythonSDK
 Enum
+pypubsub

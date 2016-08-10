@@ -1,6 +1,7 @@
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
-import os, time, yaml
-import logging
+import os, time, yaml, logging
+from random import randint
+
 logging.basicConfig()
 
 home = os.curdir
@@ -15,26 +16,15 @@ elif os.name == 'nt':
 else:
     home = os.environ['HOMEPATH']
 
-class Broadcaster:
-
-    def __init__(self, topic="", sensor_id="", credentials_dir=False):
+class AWSIoTSetup():
+    def __aws_setup__(self, credentials_dir=False):
         if credentials_dir == False:
             credentials_dir = os.path.join(home, ".baa_credentials")
-        self.topic = topic
         self.__config__(credentials_dir)
         self.__setup_mqtt_client__()
         self.__setup_credentials__(credentials_dir)
         self.__setup_endpoint__()
         self.__configure_queue__()
-
-    def destroy(self):
-        self.mqClient.unsubscribe(self.topic)
-        self.mqClient.disconnect()
-
-    def publish(self, msg):
-        self.mqClient.publish(self.topic, msg, 0)
-
-    # Private Methods
 
     def __config__(self, path):
         credentials_dir = os.path.abspath(path)
@@ -43,7 +33,7 @@ class Broadcaster:
         print('config ran')
 
     def __setup_mqtt_client__(self):
-        name = "sensor-" + str(self.sensor_unit_id) + "-" + str(int(time.time()))
+        name = "sensor_unit-" + str(self.sensor_unit_id) + "-" + str(int(time.time())) + str(randint(0, 100))
         self.mqClient = AWSIoTMQTTClient(name)
         print('created ' + name)
 
@@ -68,3 +58,4 @@ class Broadcaster:
         self.mqClient.configureConnectDisconnectTimeout(10)  # 10 sec
         self.mqClient.configureMQTTOperationTimeout(5)  # 5 sec
         print('queue config')
+

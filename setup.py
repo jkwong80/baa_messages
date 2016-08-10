@@ -16,12 +16,15 @@ setup(name='baa_messages',
           'thrift',
           'pre-commit',
           'AWSIoTPythonSDK',
-          'Enum'
+          'Enum',
+          'PyDispatcher'
       ],
       tests_require=[
 	'thrift',
         'AWSIoTPythonSDK',
-        'Enum'
+        'Enum',
+        'pypubsub',
+        'mock'
       ],
       platforms=['any'],
       classifiers=['Development Status :: 1 - Alpha',
