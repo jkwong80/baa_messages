@@ -1,15 +1,16 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import sys
-
-version = '0.0.1'
+import baa_messages
+version = baa_messages.__version__
 
 setup(name='baa_messages',
       version=version,
-      description='Thrift Message formats',
-      author='Berkely Applied Analytics',
+      description='SDK For working with Berkeley Applied Analytics cloud tools',
+      author='Berkeley Applied Analytics',
       author_email='',
       url='https://github.com/berkeleyapplied/baa_messages',
-      packages=['baa_messages', 'test'],
+      packages=find_packages(exclude='test'),
+      package_data={'': ["*.so"]},
       license='MIT License',
       test_suite='test',
       install_requires=[
