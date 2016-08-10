@@ -4,7 +4,7 @@ from thrift.protocol.TBinaryProtocol import TBinaryProtocolAccelerated
 from thrift.protocol.TJSONProtocol import TJSONProtocol
 import lz4f
 import base64
-from baa_messages.messages.core.ttypes import BAAMessage
+from baa_messages.messages.core.ttypes import BAAMessage,BAAContext
 OutputType = Enum("BINARY","JSON")
 
 
@@ -74,13 +74,13 @@ def encode_network_message(sender_id,message_time,schema_object,receiver_id=None
 
     if longitude is None:
         longitude = 0.0
-        
-    envelope = BAAMessage(sender_id=sender_id,
-                          message_time=message_time,
+
+    msg_ctx = BAAContext(parent_id=sender_id,timestamp=message_time,location=[float(latitude),float(longitude)])
+    envelope = BAAMessage(context=msg_ctx,
                           payload_class=payload_cls,
                           payload=payload_string,
                           receiver_id=receiver_id,
-                          gps_coordinates=[float(latitude),float(longitude)])
+                          )
     
     msg = encode_object(envelope,output_type=OutputType.JSON)
     return msg

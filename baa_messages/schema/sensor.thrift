@@ -17,8 +17,8 @@
  * under the License.
  */
 
-
-namespace py messages.sensor
+include "core.thrift"
+namespace py baa_messages.messages.sensor
 
 
 enum SensorType {
@@ -29,27 +29,35 @@ enum SensorType {
 }
 
 struct GPSReading {
-    1: required string sensor_id,
-    2: required double timestamp,
-    3: required double latitude,
-    4: required double longitude
+    1: required core.BAAContext context,
+    2: required double latitude,
+    3: required double longitude,
+    4: optional string status
 }
 
 struct TemperatureReading{
-    1: required double timestamp,
-    2: required double temperature
+    1: required core.BAAContext context,
+    2: required double temperature,
+    3: optional string status
 }
 
 struct GammaReading{
-    1: required double start_time,
-    2: required double duration,
-    3: required double live_time,
-    4: required list<i32> adc_channel_counts,
-    5: optional list<double> bin_energies
+    1: required core.BAAContext context,
+    2: required double start_time,
+    3: required double duration,
+    4: required double live_time,
+    5: required i32 num_channels,
+    6: required map<i32,i32> adc_channel_counts,
+    7: optional map<double,double> channel_energies,
+    8: optional double gross_counts
 }
 
 struct NeutronReading {
-    1: required double counts
+    1: required core.BAAContext context,
+    2: required double counts,
+    3: optional i32 num_channels
+    4: optional map<i32,i32> adc_channel_counts,
+    5: optional map<double,double> channel_energies
 }
 
 union SensorReading {
@@ -59,34 +67,31 @@ union SensorReading {
     4: NeutronReading neutron
 }
 
-struct SensorReadingReport {
-    1: required string sensor_id,
-    2: required double timestamp,
-    3: required SensorType sensor_type,
-    4: required SensorReading sensor_reading,
-
-    5: optional string sensor_unit_id
-}
-
 struct GPSSetting {
-    1: optional double sample_frequency,
+    1: required core.BAAContext context,
+    2: optional double poll_frequency,
+    3: optional list<double> null_value
 }
 
 struct TemperatureSetting {
-    1: optional double sample_frequency,
+    1: required core.BAAContext context,
+    2: optional double poll_frequency,
+    3: optional list<double> null_value
 }
 
 struct GammaSetting {
-    1: optional double sample_frequency,
-    2: optional double fine_gain,
-    3: optional double high_voltage,
-    4: optional double lld,
-    5: optional double uld
+    1: required core.BAAContext context,
+    2: optional double sample_frequency,
+    3: optional double fine_gain,
+    4: optional double high_voltage,
+    5: optional double lld,
+    6: optional double uld
 }
 
 struct NeutronSetting {
-    1: optional double sample_frequency,
-    2: optional double voltage
+    1: required core.BAAContext context,
+    2: optional double sample_frequency,
+    3: optional double voltage
 }
 
 union SensorSetting {
@@ -96,14 +101,9 @@ union SensorSetting {
     4: NeutronSetting neutron
 }
 
-struct SensorSettingReport {
-    1: required string sensor_id,
-    2: required double timestamp,
-    3: required SensorType sensor_type,
-    4: required SensorReading sensor_setting,
-
-    5: optional string sensor_unit_id
+struct SensorReport {
+    1: required core.BAAContext context,
+    2: list<SensorReading> readings,
+    3: list<SensorSetting> settings,
+    4: list<SensorType> sensor_type
 }
-
-
-

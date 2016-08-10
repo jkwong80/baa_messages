@@ -1,24 +1,24 @@
-#!/usr/bin/python2.4
-
-"""Tests for baa messages object objects."""
-
-__author__ = 'Cory Gwin'
+#!/usr/bin/env python
 
 import unittest
+import time
 from baa_messages.messages.sensor.ttypes import GPSReading
 from baa_messages.messages.core.ttypes import BAAMessage
 import baa_messages.codec as bc
 import time
+from baa_messages.messages.core.ttypes import BAAContext
+
+ctx = BAAContext(parent_id='Seth S',timestamp=time.time(),location=[0.0,0.0],sensor_id=123,sensor_unit_id=1)
 
 
 class ApiBase(unittest.TestCase):
     def test_dev(self) :
+        print 'Hello'
         self.assertEqual(True, True)
 
     def test_json_codec(self):
         try:
-            x = GPSReading(sensor_id='sensor_1',
-                           timestamp=time.time(),
+            x = GPSReading(context=ctx,
                            latitude=0,
                            longitude=0
                            )
@@ -34,8 +34,7 @@ class ApiBase(unittest.TestCase):
 
     def test_binary_codec(self):
         try:
-            x = GPSReading(sensor_id='sensor_1',
-                           timestamp=time.time(),
+            x = GPSReading(context=ctx,
                            latitude=0,
                            longitude=0
                            )
@@ -53,8 +52,7 @@ class ApiBase(unittest.TestCase):
     def test_network_message_codec(self):
         print " Starting test_netowr..."
         try:
-            x = GPSReading(sensor_id='sensor_1',
-                           timestamp=time.time(),
+            x = GPSReading(context=ctx,
                            latitude=0,
                            longitude=0
                            )

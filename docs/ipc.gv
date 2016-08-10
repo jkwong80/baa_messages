@@ -1,0 +1,10 @@
+digraph "ipc" {
+node [style=filled, shape=record];
+edge [arrowsize=0.5];
+rankdir=LR
+node [fillcolor=white];
+RequestType [label="enum RequestType|NO_RESP = 1|RESP = 2"];
+node [fillcolor=beige];
+IPCMessage [label="struct IPCMessage|<field_sender_id>sender_id :: string|<field_receiver_id>receiver_id :: string|<field_request_type>request_type :: RequestType|<field_payload>payload :: string"];
+IPCMessage:field_request_type -> RequestType
+}
