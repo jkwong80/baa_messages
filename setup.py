@@ -18,7 +18,7 @@ setup(name='baa_messages',
           'pre-commit',
           'AWSIoTPythonSDK',
           'Enum',
-          'PyDispatcher'
+          'pypubsub'
       ],
       tests_require=[
 	'thrift',
