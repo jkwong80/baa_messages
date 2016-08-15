@@ -10,7 +10,6 @@ setup(name='baa_messages',
       author_email='',
       url='https://github.com/berkeleyapplied/baa_messages',
       packages=find_packages(exclude='test'),
-      package_data={'': ["*.so"]},
       license='MIT License',
       test_suite='test',
       install_requires=[
@@ -18,7 +17,8 @@ setup(name='baa_messages',
           'pre-commit',
           'AWSIoTPythonSDK',
           'Enum',
-          'pypubsub'
+          'pypubsub',
+          'lz4tools'
       ],
       tests_require=[
 	'thrift',
