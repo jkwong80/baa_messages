@@ -43,8 +43,15 @@ sudo pip install -r requirements.txt
 sudo pip install .
 ./bin/run_tests.sh
 ```
-If that works, then you can you know that the build worked and you can commit your code changes. Once you are done,
-you can simply remove the my_venv directory to blow away that virtual environment.  (Please be sure not to check in
+If this works then the build works in a clean environment and you can move on to committing your changes.
+
+
+To exit the virtual environment, inside the venv type:
+```bash
+deactivate
+```
+Once you are done making changes, and you have deactivated the venv session, you can simply remove the
+my_venv directory to blow away that virtual environment.  (Please be sure not to check in
 that directory as it will be different for different development environments)
 
 ## Testing the Installation
