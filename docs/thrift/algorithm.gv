@@ -1,0 +1,16 @@
+digraph "algorithm" {
+node [style=filled, shape=record];
+edge [arrowsize=0.5];
+rankdir=LR
+node [fillcolor=lightcyan];
+AlgorithmReading [label="union AlgorithmReading|<field_golf>golf :: Reading"];
+node [fillcolor=lightcyan];
+AlgorithmSetting [label="union AlgorithmSetting|<field_golf>golf :: Setting"];
+node [fillcolor=beige];
+AlgorithmReport [label="struct AlgorithmReport|<field_context>context :: BAAContext|<field_readings>readings :: list\<AlgorithmReading\>|<field_settings>settings :: list\<AlgorithmSetting\>"];
+AlgorithmReading:field_golf -> Reading
+AlgorithmSetting:field_golf -> Setting
+AlgorithmReport:field_context -> BAAContext
+AlgorithmReport:field_readings -> AlgorithmReading
+AlgorithmReport:field_settings -> AlgorithmSetting
+}

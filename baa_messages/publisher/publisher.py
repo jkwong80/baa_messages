@@ -8,8 +8,11 @@ class Broadcaster:
         pass
 
     @abstractmethod
-    def publish(self):
+    def publish(self, msg, topic=None):
         pass
 
     def set_topic(self, topic):
         self.topic = topic
+
+    def set_serializer(self,func):
+        self.serializer = func

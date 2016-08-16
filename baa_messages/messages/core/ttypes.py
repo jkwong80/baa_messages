@@ -22,6 +22,7 @@ class BAAContext:
   Attributes:
    - parent_id
    - timestamp
+   - timestamp_remainder
    - location
    - sensor_id
    - sensor_unit_id
@@ -30,15 +31,17 @@ class BAAContext:
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'parent_id', None, None, ), # 1
-    (2, TType.DOUBLE, 'timestamp', None, None, ), # 2
-    (3, TType.LIST, 'location', (TType.DOUBLE,None), None, ), # 3
-    (4, TType.I32, 'sensor_id', None, None, ), # 4
-    (5, TType.I32, 'sensor_unit_id', None, None, ), # 5
+    (2, TType.I64, 'timestamp', None, None, ), # 2
+    (3, TType.I32, 'timestamp_remainder', None, None, ), # 3
+    (4, TType.LIST, 'location', (TType.DOUBLE,None), None, ), # 4
+    (5, TType.I32, 'sensor_id', None, None, ), # 5
+    (6, TType.I32, 'sensor_unit_id', None, None, ), # 6
   )
 
-  def __init__(self, parent_id=None, timestamp=None, location=None, sensor_id=None, sensor_unit_id=None,):
+  def __init__(self, parent_id=None, timestamp=None, timestamp_remainder=None, location=None, sensor_id=None, sensor_unit_id=None,):
     self.parent_id = parent_id
     self.timestamp = timestamp
+    self.timestamp_remainder = timestamp_remainder
     self.location = location
     self.sensor_id = sensor_id
     self.sensor_unit_id = sensor_unit_id
@@ -58,11 +61,16 @@ class BAAContext:
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.DOUBLE:
-          self.timestamp = iprot.readDouble()
+        if ftype == TType.I64:
+          self.timestamp = iprot.readI64()
         else:
           iprot.skip(ftype)
       elif fid == 3:
+        if ftype == TType.I32:
+          self.timestamp_remainder = iprot.readI32()
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
         if ftype == TType.LIST:
           self.location = []
           (_etype3, _size0) = iprot.readListBegin()
@@ -72,12 +80,12 @@ class BAAContext:
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
-      elif fid == 4:
+      elif fid == 5:
         if ftype == TType.I32:
           self.sensor_id = iprot.readI32()
         else:
           iprot.skip(ftype)
-      elif fid == 5:
+      elif fid == 6:
         if ftype == TType.I32:
           self.sensor_unit_id = iprot.readI32()
         else:
@@ -97,22 +105,26 @@ class BAAContext:
       oprot.writeString(self.parent_id)
       oprot.writeFieldEnd()
     if self.timestamp is not None:
-      oprot.writeFieldBegin('timestamp', TType.DOUBLE, 2)
-      oprot.writeDouble(self.timestamp)
+      oprot.writeFieldBegin('timestamp', TType.I64, 2)
+      oprot.writeI64(self.timestamp)
+      oprot.writeFieldEnd()
+    if self.timestamp_remainder is not None:
+      oprot.writeFieldBegin('timestamp_remainder', TType.I32, 3)
+      oprot.writeI32(self.timestamp_remainder)
       oprot.writeFieldEnd()
     if self.location is not None:
-      oprot.writeFieldBegin('location', TType.LIST, 3)
+      oprot.writeFieldBegin('location', TType.LIST, 4)
       oprot.writeListBegin(TType.DOUBLE, len(self.location))
       for iter6 in self.location:
         oprot.writeDouble(iter6)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.sensor_id is not None:
-      oprot.writeFieldBegin('sensor_id', TType.I32, 4)
+      oprot.writeFieldBegin('sensor_id', TType.I32, 5)
       oprot.writeI32(self.sensor_id)
       oprot.writeFieldEnd()
     if self.sensor_unit_id is not None:
-      oprot.writeFieldBegin('sensor_unit_id', TType.I32, 5)
+      oprot.writeFieldBegin('sensor_unit_id', TType.I32, 6)
       oprot.writeI32(self.sensor_unit_id)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -130,6 +142,7 @@ class BAAContext:
     value = 17
     value = (value * 31) ^ hash(self.parent_id)
     value = (value * 31) ^ hash(self.timestamp)
+    value = (value * 31) ^ hash(self.timestamp_remainder)
     value = (value * 31) ^ hash(self.location)
     value = (value * 31) ^ hash(self.sensor_id)
     value = (value * 31) ^ hash(self.sensor_unit_id)

@@ -22,10 +22,11 @@ namespace py baa_messages.messages.core
 
 struct BAAContext {
     1: required string parent_id,
-    2: required double timestamp,
-    3: optional list<double> location,
-    4: optional i32 sensor_id,
-    5: optional i32 sensor_unit_id
+    2: required i64 timestamp, // Unix Epoch time in microseconds (truncated)
+    3: optional i32 timestamp_remainder, // number of femtoseconds to add to timestamp
+    4: optional list<double> location,
+    5: optional i32 sensor_id,
+    6: optional i32 sensor_unit_id
 }
 
 struct BAAMessage {
@@ -34,4 +35,3 @@ struct BAAMessage {
     3: required binary payload,
     4: optional string receiver_id
 }
-
