@@ -1,0 +1,9 @@
+digraph "temp_sensor" {
+node [style=filled, shape=record];
+edge [arrowsize=0.5];
+rankdir=LR
+node [fillcolor=beige];
+Reading [label="struct Reading|<field_temperature>temperature :: double"];
+node [fillcolor=beige];
+Setting [label="struct Setting|<field_poll_frequency>poll_frequency :: double|<field_null_value>null_value :: double"];
+}

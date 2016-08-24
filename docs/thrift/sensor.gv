@@ -1,0 +1,30 @@
+digraph "sensor" {
+node [style=filled, shape=record];
+edge [arrowsize=0.5];
+rankdir=LR
+node [fillcolor=lightcyan];
+Reading [label="union Reading|<field_gps>gps :: Reading|<field_temperature>temperature :: Reading|<field_gamma>gamma :: Reading|<field_neutron>neutron :: Reading"];
+node [fillcolor=beige];
+SensorReading [label="struct SensorReading|<field_context>context :: BAAContext|<field_reading>reading :: Reading"];
+node [fillcolor=lightcyan];
+Setting [label="union Setting|<field_gps>gps :: Setting|<field_temp>temp :: Setting|<field_gamma>gamma :: Setting|<field_neutron>neutron :: Setting"];
+node [fillcolor=beige];
+SensorSetting [label="struct SensorSetting|<field_context>context :: BAAContext|<field_setting>setting :: Setting"];
+node [fillcolor=beige];
+SensorReport [label="struct SensorReport|<field_context>context :: BAAContext|<field_readings>readings :: list\<SensorReading\>|<field_settings>settings :: list\<SensorSetting\>"];
+Reading:field_gps -> Reading
+Reading:field_temperature -> Reading
+Reading:field_gamma -> Reading
+Reading:field_neutron -> Reading
+SensorReading:field_context -> BAAContext
+SensorReading:field_reading -> Reading
+Setting:field_gps -> Setting
+Setting:field_temp -> Setting
+Setting:field_gamma -> Setting
+Setting:field_neutron -> Setting
+SensorSetting:field_context -> BAAContext
+SensorSetting:field_setting -> Setting
+SensorReport:field_context -> BAAContext
+SensorReport:field_readings -> SensorReading
+SensorReport:field_settings -> SensorSetting
+}

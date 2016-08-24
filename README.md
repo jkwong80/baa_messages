@@ -76,13 +76,71 @@ sudo pip install baa_messages
 
 Now you are ready to use the package to create messages and send them to the BAA Cloud
 ### Usage
+The baa_messages library is intended to provide an interface to the Message Schema used in the BAA Cloud.
+At the base level, for every message structure, there is an associated schema, and therefore python Object.
+These objects are grouped, by there nature into components.  At this time, the baa_messages library supports
+the following components:
+- Sensor - a system that primarily publishes its data to the cloud and, whose settings, can be set through a cloud subscription
+- Algorithm - A process that takes in values (primarily from sensors) and publishes its results to the cloud
+
+For each component there is a concept of a **"Reading"** and a **"Setting"**.  The **Reading** is used to report
+the information coming out of the component while the **Setting** is used to interact with the component and change
+its state.
+
+Equipped with this knowledge, the easiest way to interact with the library is to use the Component factories
+as shown below:
+#### Access via Component Factories
+To build out a sensor you can use the sensor factory:
+```python
+from baa_messages.components.sensor import SensorFactory
+sf = SensorFactory()
+
+gps_reading = sf.create_sensor_reading("gps")
+gps_reading.reading.latitude=10
+gps_reading.reading.longitude=20
+```
+
+Alternatively, you can provide the arguments of the context and the reading as arguments to ```create_sensor_reading``` like:
+```python
+import time
+from baa_messages.components.sensor import SensorFactory
+sf = SensorFactory()
+
+gps_reading = sf.create_sensor_reading("gps",timestamp=time.time(), latitude=38, longitude=-73)
+```
+
+The same can be done using ```create_sensor_setting``` and if you would like a collection
+of settings and readings you can use ```create_sensor_report```.
+
+#### Access via base schema
+
 To create a "BAAMessage" python object from the schema and set the sender_id, open python and type:
 ```
 from baa_messages.messages.core.ttypes import BAAMessage
 x=BAAMessage()
 x.sender_id = "1234"
 ```
-Also see [baa_messages.codec](./baa_messages/codec.py) for usage on the codec tools
+
+If you wanted to create a gps_reading you would use:
+```python
+from baa_messages.messages.sensor.gps.ttypes import Reading as GPSReading
+gps_reading = GPSReading(latitude=10, longitude=10)
+```
+Note that there are several issues with doing this.  First, if you want to package that into a
+sensor reading it will require something like the following:
+```python
+from baa_messages.messages.sensor.ttypes import Reading,SensorReading
+from baa_messages.messages.core.ttypes import BAAContext
+ctx = BAAContext()
+r = Reading(gps=gps_reading)
+sr = SensorReading(ctx,r)
+```
+
+Please make sure you understand the paradigm before attempting this level of interaction.  When in doubt,
+you should use the Factories to access schema objects
+
+####Encoding your data
+see [baa_messages.codec](./baa_messages/codec.py) for usage on the codec tools
 
 ### Using MQTT to Publish and subscribe to the cloud
 ```python

@@ -1,0 +1,9 @@
+digraph "golf_algorithm" {
+node [style=filled, shape=record];
+edge [arrowsize=0.5];
+rankdir=LR
+node [fillcolor=beige];
+Reading [label="struct Reading|<field_metric>metric :: double|<field_sensor_id>sensor_id :: string|<field_message_id>message_id :: string|<field_fg_counts>fg_counts :: list\<i32\>|<field_fg_times>fg_times :: list\<double\>|<field_bg_counts>bg_counts :: list\<i32\>|<field_bg_times>bg_times :: list\<double\>"];
+node [fillcolor=beige];
+Setting [label="struct Setting|<field_threshold>threshold :: double|<field_scale>scale :: string|<field_num_fg_samples>num_fg_samples :: i32|<field_num_bg_samples>num_bg_samples :: i32"];
+}
