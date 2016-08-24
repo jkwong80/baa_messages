@@ -1,175 +1,91 @@
 #!/usr/bin/env python
 
-import unittest
-import pkgutil
+import unittest, pkgutil, time
 import baa_messages.messages.sensor as s
-import time
 import baa_messages.codec as bc
 from baa_messages.util import get_time
-#
-# import json
-# from decimal import Decimal
-# from baa_messages.messages.sensor.gps.ttypes import Reading as GPSReading
-# import baa_messages.codec as bc
-# import time
-# from baa_messages.messages.core.ttypes import BAAContext
-# from baa_messages.messages.sensor.ttypes import SensorReading
-# import baa_messages
-
+from baa_messages.components.sensor import SensorFactory
+from baa_messages.components.sensor_unit import SensorUnit
+from baa_messages.messages.core.ttypes import BAAContext
+import support.helpers as helpers
 
 class TestSensor(unittest.TestCase):
-    def test_individual_constructors(self):
-        print '\nTesting Construction of all Sensor Schemas...'
-        package = s
-        prefix = package.__name__ + "."
-        for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
-            if ispkg:
-                print "Found submodule %s (is a package: %s)" % (modname, ispkg)
-                module = __import__(modname, fromlist="dummy")
-                exec("from {0}.ttypes import Reading as Reading".format(modname))
-                exec("from {0}.ttypes import Setting as Setting".format(modname))
+    def test_sensor_validates_sensor_id(self):
+        sensor_unit = SensorUnit(id=1)
+        with self.assertRaises(ValueError):
+            sensor_unit.add_sensor(type="gps")
 
-                print "Imported", module
+    def test_sensor_validates_sensor_type(self):
+        sensor_unit = SensorUnit(id=1)
+        with self.assertRaises(ValueError):
+            sensor_unit.add_sensor(type="time", id=2)
 
-                print 'Constructing Reading'
-                reading=Reading()
-                self.assertIsInstance(reading,module.ttypes.Reading)
-                print 'Constructing Setting'
-                setting = Setting()
-                self.assertIsInstance(setting,module.ttypes.Setting)
+    def test_sensor_has_a_sensor_unit(self):
+        sensor_unit = SensorUnit(id=1)
+        sensor = sensor_unit.add_sensor(type="gps", id=2)
+        assert sensor_unit == sensor.sensor_unit
 
-        def get_reading(modname):
-            exec ("from {0}.ttypes import Reading as Reading".format(modname))
+    def test_sensor_attributes(self):
+        sensor_unit = SensorUnit(id=1)
+        sensor = sensor_unit.add_sensor(type="gps", id=2, name="test")
+        assert sensor.sensor_unit_id == sensor_unit.id
+        assert sensor.type == "gps"
+        assert sensor.name == "test"
 
-        def get_setting(modname):
-            exec ("from {0}.ttypes import Setting as Setting".format(modname))
-
-        self.assertRaises(ImportError, get_reading, "bunny")
-        self.assertRaises(ImportError, get_setting, "bunny")
-
-    def test_sensor(self):
-        # Testing Parameters
-        parent_id = "Bugs Bunny"
-        timestamp = time.time()
-        time_us, remainder = get_time(timestamp, 20)
-        grlat = 10
-        grlng = 10
-        gspoll = 1
-        gsnull=-5
-        ctxlat=20
-        ctxlng=50
-        sensor_id = 123
-        sensor_unit_id = 1
-
-        #Run Test
-
-        print '\nTesting Construction of Sensor...'
-        import baa_messages.messages.sensor.gps.ttypes as gt
-        import baa_messages.messages.sensor.ttypes as st
-
-        print 'Constructing GPS Reading'
-        gr=gt.Reading(latitude=grlat,longitude=grlng)
-        print 'Constructing GPS Setting'
-        gs = gt.Setting(poll_frequency=gspoll, null_value=gsnull)
-        from baa_messages.messages.core.ttypes import BAAContext
-        ctx = BAAContext(parent_id=parent_id, timestamp=time_us, timestamp_remainder=remainder,
-                         location=[ctxlat, ctxlng], sensor_id=sensor_id, sensor_unit_id=sensor_unit_id)
-
-        print 'TIME::: {0}, {0:15.10f}, ctx.time: {1:15.10f} '.format(timestamp,ctx.timestamp)
-
-
-
-
-        print 'Constructing Sensor Reading'
-        sr = st.SensorReading(ctx,st.Reading(gr))
-        print 'Constructing Sensor Setting'
-        ss = st.SensorSetting(ctx,st.Setting(gs))
-
-        print 'Constructing Sensor Report'
-        my_rep = st.SensorReport(ctx,[sr,sr],[ss])
-
-        print 'Serializing Sensor Report into TBinary'
-        payload_bytes = bc.encode_object(my_rep,bc.Encoding.TBINARY)
-
-
-        # print payload_bytes
-        jd = bc.decode_payload(payload_bytes,bc.Encoding.TBINARY,bc.get_class_name(my_rep))
-
-        print 'Decoded Time: {0:15.10f}  Orig time: {1:15.10f}'.format(jd.context.timestamp, timestamp)
-        self.assertEqual(jd.context.timestamp,time_us)
-        self.assertEqual(jd.context.timestamp_remainder, remainder)
-        # exit()
-        # print "Time: {0}, ctx.timestamp: {1}  json time: {2}".format(Decimal(jd["context"]["timestamp"]),ctx.timestamp,Decimal(timestamp))
-        #
-        # print "Testing Timestamp {0} == {1}: {2}".format(float(jd["context"]["timestamp"]),float(timestamp),float(jd["context"]["timestamp"]) == float(timestamp))
-        # self.assertEqual(jd["context"]["parent_id"], parent_id, msg="Invalid context.parent_id in encoding")
-        # self.assertEqual(float(jd["context"]["timestamp"]), timestamp, msg = "Invalid context.timestamp in encoding")
-        # self.assertEqual(jd["readings"][0]["reading"]["gps"]["latitude"],grlat, msg = "Invalid gps.lat in encoding")
-        # print payload_bytes
-
-    def test_sensor_factory(self):
-        print 'Testing components.sensor.SensorFactory...'
-
-        from baa_messages.components.sensor import SensorFactory
-        sf = SensorFactory()
-        gr = sf.create_sensor_reading("gps")
-        self.assertRaises(ValueError,sf.create_sensor_reading,"time")
-
+    def test_sensor_reading(self):
+        sensor_unit = SensorUnit(id=1)
+        sensor = sensor_unit.add_sensor(type="gps", id=2, name="test")
+        lat = helpers.random_coordinate()
+        lng = helpers.random_coordinate()
         x = time.time()
-        lat = 10
-        lng = 20
-        gr2 = sf.create_sensor_reading("gps",
-                                       timestamp=x,
-                                       latitude=lat,
-                                       longitude=lng)
-        self.assertEqual(gr2.context.timestamp,x)
-        self.assertEqual(gr2.reading.gps.latitude,lat)
-        self.assertEqual(gr2.reading.gps.longitude,lng)
+        report = sensor.create_reading(timestamp=x, latitude=lat, longitude=lng)
 
+        self.assertEqual(report.context.timestamp, x)
+        assert report.reading.gps.latitude == lat
+        assert report.reading.gps.longitude == lng
+        assert report.context.sensor_id == sensor.id
+        assert report.context.sensor_unit_id == sensor_unit.id
 
-        temp_reading = sf.create_sensor_reading("temperature",temperature=98.7)
-        gamma_reading = sf.create_sensor_setting("gamma",high_voltage=1000)
+    def test_sensor_reading_uses_context(self):
+        sensor_unit = SensorUnit(id=1)
+        sensor = sensor_unit.add_sensor(type="gps", id=2, name="test")
+        lat = helpers.random_coordinate()
+        lng = helpers.random_coordinate()
+        x = time.time()
+        context = BAAContext(timestamp=1234)
+        report = sensor.create_reading(context=context, timestamp=x, latitude=lat, longitude=lng)
+        assert report.context.timestamp == 1234
 
-        gt = sf.create_sensor_setting("gps",timestamp=time.time())
+    def test_sensor_settings(self):
+        sensor_unit = SensorUnit(id=1)
+        sensor = sensor_unit.add_sensor(type="gamma", id=2, name="test")
+        lat = helpers.random_coordinate()
+        lng = helpers.random_coordinate()
+        x = time.time()
 
-        sr = sf.create_sensor_report(readings=[gr,gr2],settings=[gt])
-        payload_bytes = bc.encode_object(sr,bc.Encoding.TBINARY)
+        gamma_reading = sensor.create_settings(high_voltage=1000, timestamp=x)
+        assert gamma_reading.setting.gamma.high_voltage == 1000
+        self.assertEqual(gamma_reading.context.timestamp, x)
+        assert gamma_reading.context.sensor_id == sensor.id
+        assert gamma_reading.context.sensor_unit_id == sensor_unit.id
+
+    def test_sensor_report(self):
+        sensor_unit = SensorUnit(id=1)
+        sensor = sensor_unit.add_sensor(type="gamma", id=2, name="test")
+        lat = helpers.random_coordinate()
+        lng = helpers.random_coordinate()
+        x = time.time()
+
+        setting = sensor.create_settings(high_voltage=1000, timestamp=x)
+        reading = sensor.create_reading(timestamp=x, latitude=lat, longitude=lng)
+        report = sensor.create_report(readings=[reading], settings=[setting], timestamp=x)
+
+        assert report.settings[0] == setting
+        assert report.readings[0] == reading
+        assert report.context.timestamp == x
+        assert report.context.sensor_id == sensor.id
+        assert report.context.sensor_unit_id == sensor_unit.id
 
 
 if __name__=="__main__":
     unittest.main()
-
-#
-# class TestCodec(unittest.TestCase):
-#     ctx = BAAContext(parent_id='Seth S', timestamp=time.time(), location=[0.0, 0.0], sensor_id=123, sensor_unit_id=1)
-#     x = GPSReading(context=ctx, latitude=10, longitude=20)
-#
-#     def test_encoding(self):
-#         print 'Testing codec.encode_object...'
-#
-#         print 'Testing Binary encoding...'
-#         msg = bc.encode_object(self.x, encoding=bc.Encoding.TBINARY)
-#         y = bc.decode_payload(msg, bc.Encoding.TBINARY, bc.get_class_name(self.x))
-#         self.assertIsInstance(y, self.x.__class__, "Decoding yields invalid class")
-#
-#         print 'Testing TJSON encoding...'
-#         msg = bc.encode_object(self.x, encoding=bc.Encoding.TJSON)
-#         y = bc.decode_payload(msg, bc.Encoding.TJSON, bc.get_class_name(self.x))
-#         self.assertIsInstance(y, self.x.__class__, "Decoding yields invalid class")
-#
-#         print 'Testing TSimpleJSON encoding...'
-#         msg = bc.encode_object(self.x, encoding=bc.Encoding.TSIMPLEJSON)
-#         with self.assertRaises(ValueError):
-#             y = bc.decode_payload(msg, bc.Encoding.TSIMPLEJSON, bc.get_class_name(self.x))
-#
-#     def test_network_message(self):
-#         print 'Testing Network Messages...'
-#         net_msg = bc.create_network_message('Seth Sender', time.time(),
-#                                             self.x,receiver_id="Cory Receiver",
-#                                             latitude=38.5, longitude=-75.2)
-#         msg = bc.encode_network_message(net_msg)
-#         y = bc.decode_network_message(msg)
-#         self.assertIsInstance(y,net_msg.__class__,"Decoding yielded invalid class")
-#
-
-
