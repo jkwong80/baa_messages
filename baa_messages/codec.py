@@ -1,15 +1,14 @@
 from enum import Enum
+import warnings, lz4f, base64, logging
 from thrift.transport import TTransport
 from thrift.protocol.TBinaryProtocol import TBinaryProtocolAccelerated
 from thrift.protocol.TJSONProtocol import TJSONProtocol,TSimpleJSONProtocol
-import lz4f
-import base64
 from baa_messages.messages.core.ttypes import BAAMessage,BAAContext
 # OutputType = Enum("BINARY","JSON")
-import warnings
 
 Encoding = Enum("TBINARY","TJSON","TSIMPLEJSON")
-
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
 
 def get_class_object(schema_class):
     payload_class = schema_class.split(".")
@@ -115,6 +114,7 @@ def encode_network_message(network_message):
 
 
 def decode_network_message(msg_string):
+    log.info("decode network message: {} {}".format(type(msg_string), msg_string))
     envelope = decode_payload(payload=msg_string, encoding=Encoding.TJSON, schema_class=get_class_name(BAAMessage()))
     return envelope
 

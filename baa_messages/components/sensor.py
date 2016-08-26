@@ -2,7 +2,8 @@ import pkgutil
 import baa_messages.messages.sensor
 from baa_messages.messages.core.ttypes import BAAContext
 import baa_messages.messages.sensor.ttypes as st
-
+from baa_messages.codec import create_network_message
+from baa_messages.util import get_time
 
 class SensorFactory:
     def create_sensor(self, id=False, type=False, sensor_unit=False, name="unnamed"):
@@ -27,62 +28,62 @@ class Sensor():
         self.type = type
         self.name = name
         self.sensor_unit = sensor_unit
+        self.latest_reading = None
+        self.latest_setting = None
 
     def create_reading(self, **kwargs):
         if 'context' in kwargs.keys() or 'schema' in kwargs.keys():
             raise ValueError("Cannot provide context / schema as kwargs")
 
         class_name = self._sensor_module[self.type].split(".")[-1].title()
-        exec ("from {0}.ttypes import {1}Reading as Reading".format(self._sensor_module[self.type],class_name))
+        exec ("from {0}.ttypes import {1}Reading as Reading".
+                format(self._sensor_module[self.type], class_name))
         context = BAAContext()
         reading = Reading()
         self._set_attributes(context=context, schema=reading, **kwargs)
         self._set_sensor_context(context)
         sr = st.Reading()
         setattr(sr, self.type, reading)
+        reading = st.SensorReading(context, sr)
+        reading.validate()
+        self.latest_reading = reading
 
-        return st.SensorReading(context, sr)
+        return reading
 
     def create_setting(self, **kwargs):
         if 'context' in kwargs.keys() or 'schema' in kwargs.keys():
             raise ValueError("Cannot provide context / schema as kwargs")
         class_name = self._sensor_module[self.type].split(".")[-1].title()
-        exec ("from {0}.ttypes import {1}Setting as Setting".format(self._sensor_module[self.type],class_name))
+        exec ("from {0}.ttypes import {1}Setting as Setting".
+                format(self._sensor_module[self.type], class_name))
         context = BAAContext()
         setting = Setting()
         self._set_attributes(context=context, schema=setting, **kwargs)
         self._set_sensor_context(context)
         sensor_setting = st.Setting()
         setattr(sensor_setting, self.type, setting)
+        sensor_setting.validate()
+        self.latest_setting = st.SensorSetting(context, sensor_setting)
 
-        return st.SensorSetting(context, sensor_setting)
+        return self.latest_setting
 
-    def create_report(self, context=BAAContext(), readings=[], settings=[], **kwargs):
-        for k,v in kwargs.iteritems():
-            if hasattr(context, k):
-                setattr(context, k, v)
-
-        self._set_sensor_context(context)
-        return st.SensorReport(context, readings, settings)
-
+    def clear_latest_data(self):
+        self.latest_setting = None
+        self.latest_reading = None
 
     # private
 
     def _set_attributes(self, context=False, schema=False, **kwargs):
         for k, v in kwargs.iteritems():
             if hasattr(context,k):
+                # TODO: lets do something smart here with the timestamp
+                #if(k == "timestamp_us"):
+                #   v = get_time(str(v))
                 setattr(context,k,v)
             elif hasattr(schema, k):
                 setattr(schema,k,v)
             else:
                 raise ValueError("{0} has no Attribute: {1}".format(self,k))
-            #
-            #
-            # for i in [context, schema]:
-            #     if hasattr(i, k) and getattr(i, k) is None:
-            #         setattr(i, k, v)
-            #     else:
-            #         raise ValueError("Cannot pass {0} and {0}.{1} simultaneously".format(i.__class__.__name__,k))
 
     def _set_sensor_context(self, context):
         context.sensor_id = self.id
@@ -97,36 +98,5 @@ class Sensor():
                 module = __import__(modname, fromlist="dummy")
                 # Importing the reading and setting from each sensor schema
                 exec ("from {0}.ttypes import *".format(modname))
-                # exec ("from {0}.ttypes import Reading as Reading".format(modname))
-                # exec ("from {0}.ttypes import Setting as Setting".format(modname))
-                #
                 # This provides a reference to be used to import the specific module by its schema name
                 self._sensor_module[modname.split(".")[-1]] = modname
-
-
-
-
-
-# from baa_messages.publisher.mqtt import Mqtt
-# from baa_messages.publisher.publisher import Broadcaster
-# from baa_messages.codec import create_network_message
-# import time
-#
-#
-# class SensorPublisher(Broadcaster):
-#     def __init__(self):
-#         self.set_serializer(create_network_message)
-#         self.client_id = '123'
-#
-#     def publish(self, msg, topic=None):
-#
-#         env = self.serializer(self.client_id,time.time(),msg)
-#         print env
-#         # if topic is not None:
-#         #     self.set_topic(topic)
-#         # self._mqtt_pub.publish()
-#
-#     def destroy(self):
-#         pass
-#
-

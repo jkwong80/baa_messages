@@ -34,5 +34,5 @@ struct BAAMessage {
     1: required BAAContext context,
     2: required string payload_class,
     3: required binary payload,
-    4: optional string receiver_id
+    4: optional string receiver_id,
 }

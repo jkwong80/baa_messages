@@ -4,3 +4,4 @@ AWSIoTPythonSDK
 Enum
 pypubsub
 lz4tools
+mock

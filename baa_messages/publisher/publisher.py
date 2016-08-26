@@ -11,6 +11,10 @@ class Broadcaster:
     def publish(self, msg, topic=None):
         pass
 
+    @abstractmethod
+    def _encode(self, msg):
+        pass
+
     def set_topic(self, topic):
         self.topic = topic
 

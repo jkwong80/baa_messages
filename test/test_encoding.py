@@ -7,13 +7,13 @@ import time
 import baa_messages.codec as bc
 from baa_messages.components.sensor_unit import SensorUnit
 from baa_messages.util import get_time
-
+from support import factories
 from decimal import Decimal,getcontext
 
 
 class TestEncoding(unittest.TestCase):
     def test_timestamp_encoding(self):
-        sensor_unit = SensorUnit(id=1)
+        sensor_unit = factories.new_sensor_unit(id=1)
         sensor = sensor_unit.add_sensor(type="gps", id=2, name="test")
 
         t = time.time()
