@@ -3,6 +3,7 @@ import baa_messages.messages.sensor
 from baa_messages.messages.core.ttypes import BAAContext
 import baa_messages.messages.sensor.ttypes as st
 
+
 class SensorFactory:
     def create_sensor(self, id=False, type=False, sensor_unit=False, name="unnamed"):
         return Sensor(id=id, type=type, name=name, sensor_unit=sensor_unit)
@@ -16,6 +17,7 @@ class Sensor():
         if type not in self._sensor_module:
             raise ValueError("Invalid sensor_type: {0} in {1} options include {2}".
                     format(type, "Sensor", self._sensor_module.keys()))
+
         if id == False:
             raise ValueError("A sensor id is required.")
         if sensor_unit == False:
@@ -26,9 +28,12 @@ class Sensor():
         self.name = name
         self.sensor_unit = sensor_unit
 
+    def create_reading(self, **kwargs):
+        if 'context' in kwargs.keys() or 'schema' in kwargs.keys():
+            raise ValueError("Cannot provide context / schema as kwargs")
 
-    def create_reading(self, context=BAAContext(), **kwargs):
         exec ("from {0}.ttypes import Reading".format(self._sensor_module[self.type]))
+        context = BAAContext()
         reading = Reading()
         self._set_attributes(context=context, schema=reading, **kwargs)
         self._set_sensor_context(context)
@@ -37,12 +42,13 @@ class Sensor():
 
         return st.SensorReading(context, sr)
 
-
-    def create_settings(self, context=BAAContext(), **kwargs):
+    def create_setting(self, **kwargs):
+        if 'context' in kwargs.keys() or 'schema' in kwargs.keys():
+            raise ValueError("Cannot provide context / schema as kwargs")
         exec ("from {0}.ttypes import Setting".format(self._sensor_module[self.type]))
+        context = BAAContext()
         setting = Setting()
         self._set_attributes(context=context, schema=setting, **kwargs)
-
         self._set_sensor_context(context)
         sensor_setting = st.Setting()
         setattr(sensor_setting, self.type, setting)
@@ -62,9 +68,19 @@ class Sensor():
 
     def _set_attributes(self, context=False, schema=False, **kwargs):
         for k, v in kwargs.iteritems():
-            for i in [context, schema]:
-                if hasattr(i, k) and getattr(i, k) == None:
-                    setattr(i, k, v)
+            if hasattr(context,k):
+                setattr(context,k,v)
+            elif hasattr(schema, k):
+                setattr(schema,k,v)
+            else:
+                raise ValueError("{0} has no Attribute: {1}".format(self,k))
+            #
+            #
+            # for i in [context, schema]:
+            #     if hasattr(i, k) and getattr(i, k) is None:
+            #         setattr(i, k, v)
+            #     else:
+            #         raise ValueError("Cannot pass {0} and {0}.{1} simultaneously".format(i.__class__.__name__,k))
 
     def _set_sensor_context(self, context):
         context.sensor_id = self.id

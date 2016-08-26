@@ -21,30 +21,33 @@ class BAAContext:
   """
   Attributes:
    - parent_id
-   - timestamp
+   - timestamp_us
    - timestamp_remainder
    - location
    - sensor_id
    - sensor_unit_id
+   - publish_timestamp_us
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'parent_id', None, None, ), # 1
-    (2, TType.I64, 'timestamp', None, None, ), # 2
+    (2, TType.I64, 'timestamp_us', None, None, ), # 2
     (3, TType.I32, 'timestamp_remainder', None, None, ), # 3
     (4, TType.LIST, 'location', (TType.DOUBLE,None), None, ), # 4
     (5, TType.I32, 'sensor_id', None, None, ), # 5
     (6, TType.I32, 'sensor_unit_id', None, None, ), # 6
+    (7, TType.I64, 'publish_timestamp_us', None, None, ), # 7
   )
 
-  def __init__(self, parent_id=None, timestamp=None, timestamp_remainder=None, location=None, sensor_id=None, sensor_unit_id=None,):
+  def __init__(self, parent_id=None, timestamp_us=None, timestamp_remainder=None, location=None, sensor_id=None, sensor_unit_id=None, publish_timestamp_us=None,):
     self.parent_id = parent_id
-    self.timestamp = timestamp
+    self.timestamp_us = timestamp_us
     self.timestamp_remainder = timestamp_remainder
     self.location = location
     self.sensor_id = sensor_id
     self.sensor_unit_id = sensor_unit_id
+    self.publish_timestamp_us = publish_timestamp_us
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -62,7 +65,7 @@ class BAAContext:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.I64:
-          self.timestamp = iprot.readI64()
+          self.timestamp_us = iprot.readI64()
         else:
           iprot.skip(ftype)
       elif fid == 3:
@@ -90,6 +93,11 @@ class BAAContext:
           self.sensor_unit_id = iprot.readI32()
         else:
           iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.I64:
+          self.publish_timestamp_us = iprot.readI64()
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -104,9 +112,9 @@ class BAAContext:
       oprot.writeFieldBegin('parent_id', TType.STRING, 1)
       oprot.writeString(self.parent_id)
       oprot.writeFieldEnd()
-    if self.timestamp is not None:
-      oprot.writeFieldBegin('timestamp', TType.I64, 2)
-      oprot.writeI64(self.timestamp)
+    if self.timestamp_us is not None:
+      oprot.writeFieldBegin('timestamp_us', TType.I64, 2)
+      oprot.writeI64(self.timestamp_us)
       oprot.writeFieldEnd()
     if self.timestamp_remainder is not None:
       oprot.writeFieldBegin('timestamp_remainder', TType.I32, 3)
@@ -127,25 +135,30 @@ class BAAContext:
       oprot.writeFieldBegin('sensor_unit_id', TType.I32, 6)
       oprot.writeI32(self.sensor_unit_id)
       oprot.writeFieldEnd()
+    if self.publish_timestamp_us is not None:
+      oprot.writeFieldBegin('publish_timestamp_us', TType.I64, 7)
+      oprot.writeI64(self.publish_timestamp_us)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
     if self.parent_id is None:
       raise TProtocol.TProtocolException(message='Required field parent_id is unset!')
-    if self.timestamp is None:
-      raise TProtocol.TProtocolException(message='Required field timestamp is unset!')
+    if self.timestamp_us is None:
+      raise TProtocol.TProtocolException(message='Required field timestamp_us is unset!')
     return
 
 
   def __hash__(self):
     value = 17
     value = (value * 31) ^ hash(self.parent_id)
-    value = (value * 31) ^ hash(self.timestamp)
+    value = (value * 31) ^ hash(self.timestamp_us)
     value = (value * 31) ^ hash(self.timestamp_remainder)
     value = (value * 31) ^ hash(self.location)
     value = (value * 31) ^ hash(self.sensor_id)
     value = (value * 31) ^ hash(self.sensor_unit_id)
+    value = (value * 31) ^ hash(self.publish_timestamp_us)
     return value
 
   def __repr__(self):

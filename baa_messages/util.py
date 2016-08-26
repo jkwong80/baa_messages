@@ -1,19 +1,15 @@
 import time
 import math
-from decimal import Decimal, getcontext
+from decimal import Decimal, getcontext,ROUND_FLOOR
 import urllib2
 
-def get_time(time_value, precision):
-    getcontext().prec = precision
-    time_value = Decimal(time_value)
-    time_us = int(math.floor(time_value * Decimal(1e6)))
-    remainder = int(math.floor(time_value * Decimal(1e6) - Decimal(time_us)))
-    return time_us, remainder
+def get_time(timestamp_seconds):
+    return int(math.floor(float(timestamp_seconds)*1e6))
 
 
 def check_internet_connection(reference):
     try:
-        response=urllib2.urlopen(reference,timeout=1)
+        response = urllib2.urlopen(reference,timeout=1)
         return True
     except urllib2.URLError as err: pass
     return False

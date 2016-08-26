@@ -16,31 +16,30 @@ class TestEncoding(unittest.TestCase):
         sensor_unit = SensorUnit(id=1)
         sensor = sensor_unit.add_sensor(type="gps", id=2, name="test")
 
-        t = time.time()+1.2345678e-18
-        ts, r = get_time(t,15)
-        sr = sensor.create_reading(timestamp=ts)
+        t = time.time()
 
-        getcontext().prec = 15
-        tf1 = Decimal(t)
-        ts, r = get_time(tf1,15)
-        sr2 = sensor.create_reading(timestamp=ts)
+        t1 = t + 1.2345678e-18
+        ts = get_time(t1)
+        sr = sensor.create_reading(timestamp_us=ts)
 
-        getcontext().prec = 28
-        tf2 = Decimal(t)
-        ts, r = get_time(tf2,28)
-        sr3 = sensor.create_reading(timestamp=ts)
+
+        ts = get_time(t + 1.45698e-7)
+        sr2 = sensor.create_reading(timestamp_us=ts)
+
+        ts = get_time(t + 3.42e-5)
+        sr3 = sensor.create_reading(timestamp_us=ts)
 
         msg = bc.encode_object(sr, bc.Encoding.TBINARY)
         srd = bc.decode_payload(msg, bc.Encoding.TBINARY, bc.get_class_name(sr))
-        self.assertEqual(srd.context.timestamp, sr.context.timestamp)
+        self.assertEqual(srd.context.timestamp_us, sr.context.timestamp_us)
 
         msg = bc.encode_object(sr2, bc.Encoding.TBINARY)
         srd = bc.decode_payload(msg, bc.Encoding.TBINARY, bc.get_class_name(sr))
-        self.assertEqual(srd.context.timestamp, sr.context.timestamp)
+        self.assertEqual(srd.context.timestamp_us, sr.context.timestamp_us)
 
         msg = bc.encode_object(sr3, bc.Encoding.TBINARY)
         srd = bc.decode_payload(msg, bc.Encoding.TBINARY, bc.get_class_name(sr))
-        self.assertNotEqual(srd.context.timestamp, sr.context.timestamp)
+        self.assertNotEqual(srd.context.timestamp_us, sr.context.timestamp_us)
 
 
 if __name__=="__main__":

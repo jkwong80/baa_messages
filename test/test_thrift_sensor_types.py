@@ -42,7 +42,7 @@ class TestSensorTypes(unittest.TestCase):
         # Testing Parameters
         parent_id = "Bugs Bunny"
         timestamp = time.time()
-        time_us, remainder = get_time(timestamp, 20)
+        time_us = get_time(timestamp)
         grlat = 10
         grlng = 10
         gspoll = 1
@@ -63,10 +63,9 @@ class TestSensorTypes(unittest.TestCase):
         print 'Constructing GPS Setting'
         gs = gt.Setting(poll_frequency=gspoll, null_value=gsnull)
         from baa_messages.messages.core.ttypes import BAAContext
-        ctx = BAAContext(parent_id=parent_id, timestamp=time_us, timestamp_remainder=remainder,
+        ctx = BAAContext(parent_id=parent_id, timestamp_us=time_us, timestamp_remainder=0,
                          location=[ctxlat, ctxlng], sensor_id=sensor_id, sensor_unit_id=sensor_unit_id)
 
-        print 'TIME::: {0}, {0:15.10f}, ctx.time: {1:15.10f} '.format(timestamp,ctx.timestamp)
 
         print 'Constructing Sensor Reading'
         sr = st.SensorReading(ctx,st.Reading(gr))
@@ -83,9 +82,8 @@ class TestSensorTypes(unittest.TestCase):
         # print payload_bytes
         jd = bc.decode_payload(payload_bytes,bc.Encoding.TBINARY,bc.get_class_name(my_rep))
 
-        print 'Decoded Time: {0:15.10f}  Orig time: {1:15.10f}'.format(jd.context.timestamp, timestamp)
-        self.assertEqual(jd.context.timestamp,time_us)
-        self.assertEqual(jd.context.timestamp_remainder, remainder)
+        self.assertEqual(jd.context.timestamp_us,time_us)
+        self.assertEqual(jd.context.timestamp_remainder, 0)
         # exit()
         # print "Time: {0}, ctx.timestamp: {1}  json time: {2}".format(Decimal(jd["context"]["timestamp"]),ctx.timestamp,Decimal(timestamp))
         #
