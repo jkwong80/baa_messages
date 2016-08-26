@@ -3,7 +3,7 @@ node [style=filled, shape=record];
 edge [arrowsize=0.5];
 rankdir=LR
 node [fillcolor=beige];
-BAAContext [label="struct BAAContext|<field_parent_id>parent_id :: string|<field_timestamp>timestamp :: i64|<field_timestamp_remainder>timestamp_remainder :: i32|<field_location>location :: list\<double\>|<field_sensor_id>sensor_id :: i32|<field_sensor_unit_id>sensor_unit_id :: i32"];
+BAAContext [label="struct BAAContext|<field_parent_id>parent_id :: string|<field_timestamp_us>timestamp_us :: i64|<field_timestamp_remainder>timestamp_remainder :: i32|<field_location>location :: list\<double\>|<field_sensor_id>sensor_id :: i32|<field_sensor_unit_id>sensor_unit_id :: i32|<field_publish_timestamp_us>publish_timestamp_us :: i64"];
 node [fillcolor=beige];
 BAAMessage [label="struct BAAMessage|<field_context>context :: BAAContext|<field_payload_class>payload_class :: string|<field_payload>payload :: binary|<field_receiver_id>receiver_id :: string"];
 BAAMessage:field_context -> BAAContext
