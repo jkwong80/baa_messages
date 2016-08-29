@@ -1,7 +1,7 @@
 import unittest
 import json
 from decimal import Decimal
-from baa_messages.messages.sensor.gps.ttypes import Reading as GPSReading
+from baa_messages.messages.sensor.gps.ttypes import GpsReading as GPSReading
 import baa_messages.codec as bc
 import time
 from baa_messages.messages.core.ttypes import BAAContext

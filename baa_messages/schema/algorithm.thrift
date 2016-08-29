@@ -4,11 +4,11 @@ include "algorithm/golf_algorithm.thrift"
 namespace py baa_messages.messages.algorithm
 
 union AlgorithmReading {
-    1: golf_algorithm.Reading golf
+    1: golf_algorithm.GolfReading golf
 }
 
 union AlgorithmSetting {
-    1: golf_algorithm.Setting golf
+    1: golf_algorithm.GolfSetting golf
 }
 
 struct AlgorithmReport {

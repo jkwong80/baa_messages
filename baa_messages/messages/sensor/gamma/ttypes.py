@@ -17,7 +17,7 @@ except:
 
 
 
-class Reading:
+class GammaReading:
   """
   Attributes:
    - start_time
@@ -114,7 +114,7 @@ class Reading:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('Reading')
+    oprot.writeStructBegin('GammaReading')
     if self.start_time is not None:
       oprot.writeFieldBegin('start_time', TType.DOUBLE, 1)
       oprot.writeDouble(self.start_time)
@@ -190,7 +190,7 @@ class Reading:
   def __ne__(self, other):
     return not (self == other)
 
-class Setting:
+class GammaSetting:
   """
   Attributes:
    - sample_frequency
@@ -259,7 +259,7 @@ class Setting:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('Setting')
+    oprot.writeStructBegin('GammaSetting')
     if self.sample_frequency is not None:
       oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 1)
       oprot.writeDouble(self.sample_frequency)

@@ -34,10 +34,10 @@ class Reading:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'gps', (baa_messages.messages.sensor.gps.ttypes.Reading, baa_messages.messages.sensor.gps.ttypes.Reading.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'temperature', (baa_messages.messages.sensor.temperature.ttypes.Reading, baa_messages.messages.sensor.temperature.ttypes.Reading.thrift_spec), None, ), # 2
-    (3, TType.STRUCT, 'gamma', (baa_messages.messages.sensor.gamma.ttypes.Reading, baa_messages.messages.sensor.gamma.ttypes.Reading.thrift_spec), None, ), # 3
-    (4, TType.STRUCT, 'neutron', (baa_messages.messages.sensor.neutron.ttypes.Reading, baa_messages.messages.sensor.neutron.ttypes.Reading.thrift_spec), None, ), # 4
+    (1, TType.STRUCT, 'gps', (baa_messages.messages.sensor.gps.ttypes.GpsReading, baa_messages.messages.sensor.gps.ttypes.GpsReading.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'temperature', (baa_messages.messages.sensor.temperature.ttypes.TemperatureReading, baa_messages.messages.sensor.temperature.ttypes.TemperatureReading.thrift_spec), None, ), # 2
+    (3, TType.STRUCT, 'gamma', (baa_messages.messages.sensor.gamma.ttypes.GammaReading, baa_messages.messages.sensor.gamma.ttypes.GammaReading.thrift_spec), None, ), # 3
+    (4, TType.STRUCT, 'neutron', (baa_messages.messages.sensor.neutron.ttypes.NeutronReading, baa_messages.messages.sensor.neutron.ttypes.NeutronReading.thrift_spec), None, ), # 4
   )
 
   def __init__(self, gps=None, temperature=None, gamma=None, neutron=None,):
@@ -57,25 +57,25 @@ class Reading:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.gps = baa_messages.messages.sensor.gps.ttypes.Reading()
+          self.gps = baa_messages.messages.sensor.gps.ttypes.GpsReading()
           self.gps.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRUCT:
-          self.temperature = baa_messages.messages.sensor.temperature.ttypes.Reading()
+          self.temperature = baa_messages.messages.sensor.temperature.ttypes.TemperatureReading()
           self.temperature.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.STRUCT:
-          self.gamma = baa_messages.messages.sensor.gamma.ttypes.Reading()
+          self.gamma = baa_messages.messages.sensor.gamma.ttypes.GammaReading()
           self.gamma.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 4:
         if ftype == TType.STRUCT:
-          self.neutron = baa_messages.messages.sensor.neutron.ttypes.Reading()
+          self.neutron = baa_messages.messages.sensor.neutron.ttypes.NeutronReading()
           self.neutron.read(iprot)
         else:
           iprot.skip(ftype)
@@ -226,10 +226,10 @@ class Setting:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'gps', (baa_messages.messages.sensor.gps.ttypes.Setting, baa_messages.messages.sensor.gps.ttypes.Setting.thrift_spec), None, ), # 1
-    (2, TType.STRUCT, 'temp', (baa_messages.messages.sensor.temperature.ttypes.Setting, baa_messages.messages.sensor.temperature.ttypes.Setting.thrift_spec), None, ), # 2
-    (3, TType.STRUCT, 'gamma', (baa_messages.messages.sensor.gamma.ttypes.Setting, baa_messages.messages.sensor.gamma.ttypes.Setting.thrift_spec), None, ), # 3
-    (4, TType.STRUCT, 'neutron', (baa_messages.messages.sensor.neutron.ttypes.Setting, baa_messages.messages.sensor.neutron.ttypes.Setting.thrift_spec), None, ), # 4
+    (1, TType.STRUCT, 'gps', (baa_messages.messages.sensor.gps.ttypes.GpsSetting, baa_messages.messages.sensor.gps.ttypes.GpsSetting.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'temp', (baa_messages.messages.sensor.temperature.ttypes.TemperatureSetting, baa_messages.messages.sensor.temperature.ttypes.TemperatureSetting.thrift_spec), None, ), # 2
+    (3, TType.STRUCT, 'gamma', (baa_messages.messages.sensor.gamma.ttypes.GammaSetting, baa_messages.messages.sensor.gamma.ttypes.GammaSetting.thrift_spec), None, ), # 3
+    (4, TType.STRUCT, 'neutron', (baa_messages.messages.sensor.neutron.ttypes.NeutronSetting, baa_messages.messages.sensor.neutron.ttypes.NeutronSetting.thrift_spec), None, ), # 4
   )
 
   def __init__(self, gps=None, temp=None, gamma=None, neutron=None,):
@@ -249,25 +249,25 @@ class Setting:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.gps = baa_messages.messages.sensor.gps.ttypes.Setting()
+          self.gps = baa_messages.messages.sensor.gps.ttypes.GpsSetting()
           self.gps.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRUCT:
-          self.temp = baa_messages.messages.sensor.temperature.ttypes.Setting()
+          self.temp = baa_messages.messages.sensor.temperature.ttypes.TemperatureSetting()
           self.temp.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.STRUCT:
-          self.gamma = baa_messages.messages.sensor.gamma.ttypes.Setting()
+          self.gamma = baa_messages.messages.sensor.gamma.ttypes.GammaSetting()
           self.gamma.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 4:
         if ftype == TType.STRUCT:
-          self.neutron = baa_messages.messages.sensor.neutron.ttypes.Setting()
+          self.neutron = baa_messages.messages.sensor.neutron.ttypes.NeutronSetting()
           self.neutron.read(iprot)
         else:
           iprot.skip(ftype)
