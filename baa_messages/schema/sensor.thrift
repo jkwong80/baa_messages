@@ -25,10 +25,10 @@ include "sensor/temp_sensor.thrift"
 namespace py baa_messages.messages.sensor
 
 union Reading {
-    1: gps_sensor.Reading gps,
-    2: temp_sensor.Reading temperature,
-    3: gamma_sensor.Reading gamma,
-    4: neutron_sensor.Reading neutron
+    1: gps_sensor.GpsReading gps,
+    2: temp_sensor.TemperatureReading temperature,
+    3: gamma_sensor.GammaReading gamma,
+    4: neutron_sensor.NeutronReading neutron
 }
 
 struct SensorReading {
@@ -37,10 +37,10 @@ struct SensorReading {
 }
 
 union Setting {
-    1: gps_sensor.Setting gps,
-    2: temp_sensor.Setting temp,
-    3: gamma_sensor.Setting gamma,
-    4: neutron_sensor.Setting neutron
+    1: gps_sensor.GpsSetting gps,
+    2: temp_sensor.TemperatureSetting temp,
+    3: gamma_sensor.GammaSetting gamma,
+    4: neutron_sensor.NeutronSetting neutron
 }
 
 struct SensorSetting {

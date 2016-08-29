@@ -1,6 +1,6 @@
 namespace py baa_messages.messages.algorithm.golf
 
-struct Reading {
+struct GolfReading {
     1: required double metric,
     2: required string sensor_id,
     3: required string message_id,
@@ -10,7 +10,7 @@ struct Reading {
     7: optional list<double> bg_times
 }
 
-struct Setting {
+struct GolfSetting {
     1: optional double threshold,
     2: optional string scale,
     3: optional i32 num_fg_samples,

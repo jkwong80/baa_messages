@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
-import unittest, pkgutil, time
-import baa_messages.messages.sensor as s
-import baa_messages.codec as bc
-from baa_messages.util import get_time
-from baa_messages.components.sensor import SensorFactory
+import unittest
+import time
 from baa_messages.components.sensor_unit import SensorUnit
 from baa_messages.messages.core.ttypes import BAAContext
 from baa_messages.util import get_time

@@ -17,7 +17,7 @@ except:
 
 
 
-class Reading:
+class NeutronReading:
   """
   Attributes:
    - counts
@@ -90,7 +90,7 @@ class Reading:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('Reading')
+    oprot.writeStructBegin('NeutronReading')
     if self.counts is not None:
       oprot.writeFieldBegin('counts', TType.DOUBLE, 1)
       oprot.writeDouble(self.counts)
@@ -143,7 +143,7 @@ class Reading:
   def __ne__(self, other):
     return not (self == other)
 
-class Setting:
+class NeutronSetting:
   """
   Attributes:
    - sample_frequency
@@ -188,7 +188,7 @@ class Setting:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('Setting')
+    oprot.writeStructBegin('NeutronSetting')
     if self.sample_frequency is not None:
       oprot.writeFieldBegin('sample_frequency', TType.DOUBLE, 1)
       oprot.writeDouble(self.sample_frequency)

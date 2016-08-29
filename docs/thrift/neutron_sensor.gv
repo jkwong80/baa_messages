@@ -3,7 +3,7 @@ node [style=filled, shape=record];
 edge [arrowsize=0.5];
 rankdir=LR
 node [fillcolor=beige];
-Reading [label="struct Reading|<field_counts>counts :: double|<field_num_channels>num_channels :: i32|<field_adc_channel_counts>adc_channel_counts :: map\<i32, i32\>|<field_channel_energies>channel_energies :: map\<double, double\>"];
+NeutronReading [label="struct NeutronReading|<field_counts>counts :: double|<field_num_channels>num_channels :: i32|<field_adc_channel_counts>adc_channel_counts :: map\<i32, i32\>|<field_channel_energies>channel_energies :: map\<double, double\>"];
 node [fillcolor=beige];
-Setting [label="struct Setting|<field_sample_frequency>sample_frequency :: double|<field_voltage>voltage :: double"];
+NeutronSetting [label="struct NeutronSetting|<field_sample_frequency>sample_frequency :: double|<field_voltage>voltage :: double"];
 }

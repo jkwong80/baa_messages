@@ -28,7 +28,7 @@ class AlgorithmReading:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'golf', (baa_messages.messages.algorithm.golf.ttypes.Reading, baa_messages.messages.algorithm.golf.ttypes.Reading.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'golf', (baa_messages.messages.algorithm.golf.ttypes.GolfReading, baa_messages.messages.algorithm.golf.ttypes.GolfReading.thrift_spec), None, ), # 1
   )
 
   def __init__(self, golf=None,):
@@ -45,7 +45,7 @@ class AlgorithmReading:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.golf = baa_messages.messages.algorithm.golf.ttypes.Reading()
+          self.golf = baa_messages.messages.algorithm.golf.ttypes.GolfReading()
           self.golf.read(iprot)
         else:
           iprot.skip(ftype)
@@ -94,7 +94,7 @@ class AlgorithmSetting:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'golf', (baa_messages.messages.algorithm.golf.ttypes.Setting, baa_messages.messages.algorithm.golf.ttypes.Setting.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'golf', (baa_messages.messages.algorithm.golf.ttypes.GolfSetting, baa_messages.messages.algorithm.golf.ttypes.GolfSetting.thrift_spec), None, ), # 1
   )
 
   def __init__(self, golf=None,):
@@ -111,7 +111,7 @@ class AlgorithmSetting:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.golf = baa_messages.messages.algorithm.golf.ttypes.Setting()
+          self.golf = baa_messages.messages.algorithm.golf.ttypes.GolfSetting()
           self.golf.read(iprot)
         else:
           iprot.skip(ftype)

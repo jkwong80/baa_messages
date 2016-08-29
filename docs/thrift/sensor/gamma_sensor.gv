@@ -3,7 +3,7 @@ node [style=filled, shape=record];
 edge [arrowsize=0.5];
 rankdir=LR
 node [fillcolor=beige];
-Reading [label="struct Reading|<field_start_time>start_time :: double|<field_duration>duration :: double|<field_live_time>live_time :: double|<field_num_channels>num_channels :: i32|<field_adc_channel_counts>adc_channel_counts :: map\<i32, i32\>|<field_channel_energies>channel_energies :: map\<double, double\>|<field_gross_counts>gross_counts :: double"];
+GammaReading [label="struct GammaReading|<field_start_time>start_time :: double|<field_duration>duration :: double|<field_live_time>live_time :: double|<field_num_channels>num_channels :: i32|<field_adc_channel_counts>adc_channel_counts :: map\<i32, i32\>|<field_channel_energies>channel_energies :: map\<double, double\>|<field_gross_counts>gross_counts :: double"];
 node [fillcolor=beige];
-Setting [label="struct Setting|<field_sample_frequency>sample_frequency :: double|<field_fine_gain>fine_gain :: double|<field_high_voltage>high_voltage :: double|<field_lld>lld :: double|<field_uld>uld :: double"];
+GammaSetting [label="struct GammaSetting|<field_sample_frequency>sample_frequency :: double|<field_fine_gain>fine_gain :: double|<field_high_voltage>high_voltage :: double|<field_lld>lld :: double|<field_uld>uld :: double"];
 }

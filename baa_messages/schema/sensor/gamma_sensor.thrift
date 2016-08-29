@@ -1,6 +1,6 @@
 namespace py baa_messages.messages.sensor.gamma
 
-struct Reading {
+struct GammaReading {
     1: required double start_time,
     2: required double duration,
     3: required double live_time,
@@ -10,7 +10,7 @@ struct Reading {
     7: optional double gross_counts
 }
 
-struct Setting {
+struct GammaSetting {
     1: optional double sample_frequency,
     2: optional double fine_gain,
     3: optional double high_voltage,

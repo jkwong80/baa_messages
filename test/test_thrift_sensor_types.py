@@ -17,17 +17,19 @@ class TestSensorTypes(unittest.TestCase):
             if ispkg:
                 print "Found submodule %s (is a package: %s)" % (modname, ispkg)
                 module = __import__(modname, fromlist="dummy")
-                exec("from {0}.ttypes import Reading as Reading".format(modname))
-                exec("from {0}.ttypes import Setting as Setting".format(modname))
+                class_name = modname.split(".")[-1].title()
+
+                exec("from {0}.ttypes import {1}Reading as Reading".format(modname,class_name))
+                exec("from {0}.ttypes import {1}Setting as Setting".format(modname,class_name))
 
                 print "Imported", module
 
                 print 'Constructing Reading'
                 reading=Reading()
-                self.assertIsInstance(reading,module.ttypes.Reading)
+                self.assertIsInstance(reading,Reading().__class__)
                 print 'Constructing Setting'
                 setting = Setting()
-                self.assertIsInstance(setting,module.ttypes.Setting)
+                self.assertIsInstance(setting,Setting().__class__)
 
         def get_reading(modname):
             exec ("from {0}.ttypes import Reading as Reading".format(modname))
@@ -59,9 +61,9 @@ class TestSensorTypes(unittest.TestCase):
         import baa_messages.messages.sensor.ttypes as st
 
         print 'Constructing GPS Reading'
-        gr=gt.Reading(latitude=grlat,longitude=grlng)
+        gr=gt.GpsReading(latitude=grlat,longitude=grlng)
         print 'Constructing GPS Setting'
-        gs = gt.Setting(poll_frequency=gspoll, null_value=gsnull)
+        gs = gt.GpsSetting(poll_frequency=gspoll, null_value=gsnull)
         from baa_messages.messages.core.ttypes import BAAContext
         ctx = BAAContext(parent_id=parent_id, timestamp_us=time_us, timestamp_remainder=0,
                          location=[ctxlat, ctxlng], sensor_id=sensor_id, sensor_unit_id=sensor_unit_id)

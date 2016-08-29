@@ -32,7 +32,8 @@ class Sensor():
         if 'context' in kwargs.keys() or 'schema' in kwargs.keys():
             raise ValueError("Cannot provide context / schema as kwargs")
 
-        exec ("from {0}.ttypes import Reading".format(self._sensor_module[self.type]))
+        class_name = self._sensor_module[self.type].split(".")[-1].title()
+        exec ("from {0}.ttypes import {1}Reading as Reading".format(self._sensor_module[self.type],class_name))
         context = BAAContext()
         reading = Reading()
         self._set_attributes(context=context, schema=reading, **kwargs)
@@ -45,7 +46,8 @@ class Sensor():
     def create_setting(self, **kwargs):
         if 'context' in kwargs.keys() or 'schema' in kwargs.keys():
             raise ValueError("Cannot provide context / schema as kwargs")
-        exec ("from {0}.ttypes import Setting".format(self._sensor_module[self.type]))
+        class_name = self._sensor_module[self.type].split(".")[-1].title()
+        exec ("from {0}.ttypes import {1}Setting as Setting".format(self._sensor_module[self.type],class_name))
         context = BAAContext()
         setting = Setting()
         self._set_attributes(context=context, schema=setting, **kwargs)
@@ -94,9 +96,10 @@ class Sensor():
             if ispkg:
                 module = __import__(modname, fromlist="dummy")
                 # Importing the reading and setting from each sensor schema
-                exec ("from {0}.ttypes import Reading as Reading".format(modname))
-                exec ("from {0}.ttypes import Setting as Setting".format(modname))
-
+                exec ("from {0}.ttypes import *".format(modname))
+                # exec ("from {0}.ttypes import Reading as Reading".format(modname))
+                # exec ("from {0}.ttypes import Setting as Setting".format(modname))
+                #
                 # This provides a reference to be used to import the specific module by its schema name
                 self._sensor_module[modname.split(".")[-1]] = modname
 
